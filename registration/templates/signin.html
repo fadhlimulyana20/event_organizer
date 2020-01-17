@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block content %}    
+<h2>Sign In Form Page</h2>
+<form class="form-signup" action="" method="POST">
+    {% csrf_token %}
+    
+    {% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}"> {{field.label}} </label>
+        {{field}}
+    </div>
+    {% endfor %}
+        
+    <input class="btn btn-lg btn-primary btn-block" type="submit" value="login">
+</form>
+{% endblock content %}

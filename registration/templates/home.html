@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block content %}  
+<script>
+    $("li[name='home_menu']").addClass("active");
+</script>
+    {% if user.is_authenticated %}
+        <img src=" {{profile.image_profile.url}} " alt="" class="img-thumbnail user-icon">
+        <h2>Hello {{user.username}} </h2>
+        <a href=" {% url 'registration:user_logout' %} ">logout</a>
+        <a href=" {% url 'registration:edit_user' %} ">edit Akun</a>
+        <a href=" {% url 'registration:edit_password' %} ">edit password</a>
+        <a href=" {% url 'registration:edit_profile' %} ">edit Profil</a>
+    {% else %}
+        <h2>You must register or login first</h2>
+    {% endif %}
+{% endblock content %}
+
