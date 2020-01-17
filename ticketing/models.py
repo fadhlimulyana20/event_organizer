@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 class Location(models.Model):
     name = models.CharField(default="untitled location", blank=False, null=False, max_length=120)
@@ -26,8 +26,21 @@ class Event(models.Model):
         ('SW', 'Seminar dan workshop')
     ]
     event_type = models.CharField(blank=True, choices= event_type_choice, max_length=2)
-    location = models.OneToOneField(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    participant = models.ManyToManyField(User, through='Event_participant', related_name='participants')
 
     def __str__(self):
-        return self.location.name, self.event_type.get_event_type_display()
+        return self.name
+
+class Event_participant(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    roles = [
+        ('1', 'Peserta'),
+        ('2', 'Narasumber')
+    ]
+    role = models.CharField(blank=False, max_length=1, choices=roles, default='1')
+
+    def __str__(self):
+        return "{} {}".format(self.user.first_name, self.user.last_name)
 
