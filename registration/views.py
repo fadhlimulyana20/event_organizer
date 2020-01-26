@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib.auth.models import User
+from ticketing.models import Event, Event_participant
 
 from .models import Profile
 
@@ -20,10 +21,12 @@ def user_logout(request):
 def home_view(request):
     if request.user.is_authenticated:
         profile = Profile.objects.get(id=request.user.id)
+        event_active = Event_participant.objects.filter(user=request.user)
     else :
         profile = None
     context = {
-        'profile' : profile
+        'profile' : profile,
+        'event_active' : event_active
     }
     return render(request, 'home.html', context)
 

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<ul>
+    {% for instance in object_list %}
+        <li><a href="{{instance.get_absolute_url}}"> {{instance.id}} - {{instance.name}}</a> </li>
+    {% endfor %}
+    </ul>
+    
+{% endblock content %}
+    

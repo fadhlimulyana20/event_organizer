@@ -45,8 +45,11 @@ class SignInForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput())
 
-    username.widget.attrs['class'] = 'form-control'
-    password.widget.attrs['class'] = 'form-control'
+    username.widget.attrs['class'] = 'form-control form-control-user'
+    password.widget.attrs['class'] = 'form-control form-control-user'
+
+    username.widget.attrs['placeholder'] = 'Username'
+    password.widget.attrs['placeholder'] = 'Password'
 
 class UpdateUserForm(forms.ModelForm):
     class Meta :

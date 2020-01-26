@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'GROBOLD';
+    font-style: normal;
+    font-weight: normal;
+    src: local('GROBOLD'), url('../font/GROBOLD.woff') format('woff');
+    }
+
+.sunatlem-brand {
+    font-family:'GROBOLD';
+    font-weight:normal;
+    font-size:32px;
+}

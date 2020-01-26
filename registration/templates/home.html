@@ -1,19 +1,59 @@
-{% extends 'base.html' %}
+{% extends 'dashboard.html' %}
 
 
-{% block content %}  
-<script>
-    $("li[name='home_menu']").addClass("active");
-</script>
-    {% if user.is_authenticated %}
-        <img src=" {{profile.image_profile.url}} " alt="" class="img-thumbnail user-icon">
-        <h2>Hello {{user.username}} </h2>
-        <a href=" {% url 'registration:user_logout' %} ">logout</a>
-        <a href=" {% url 'registration:edit_user' %} ">edit Akun</a>
-        <a href=" {% url 'registration:edit_password' %} ">edit password</a>
-        <a href=" {% url 'registration:edit_profile' %} ">edit Profil</a>
-    {% else %}
-        <h2>You must register or login first</h2>
-    {% endif %}
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    </div>
+
+    <!-- Content Row -->
+
+    <!-- event active -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h5 class="h5 mb-0 text-gray-800">Event yang Diikuti</h5>    
+    </div>
+    <div class="card-columns">
+        
+        {% for instance in event_active %}
+            {% if instance.event.is_past_due %}
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <a href="{{instance.event.get_absolute_url}}"><h5 class="h4 font-weight-bold text-danger text-uppercase mb-1">{{instance.event.name}}</h5></a>
+                    <p class="h5 mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.event.date}}</p>
+                    <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.event.time}}</p>
+                    <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.event.get_event_type_display}}</p>
+                    <p class="card-text mt-2 mb-0">Event Sudah terlewat</p>
+                    {% if instance.pay_status %}
+                        <p class="card-text text-success mt-2 mb-0">Terbayar</p>
+                    {% else %}
+                        <p class="card-text text-danger mt-2 mb-0">Belum Dibayar</p>
+                    {% endif %}   
+                </div>
+            </div>
+            {% else %}
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <h5 class="h4 font-weight-bold text-primary text-uppercase mb-1">{{instance.event.name}}</h5>
+                    <p class="h5 mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.event.date}}</p>
+                    <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.event.time}}</p>
+                    <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.event.get_event_type_display}}</p>
+                    {% if instance.pay_status %}
+                        <p class="card-text text-success mt-2 mb-0">Terbayar</p>
+                    {% else %}
+                        <p class="card-text text-danger mt-2 mb-0">Belum Dibayar</p>
+                    {% endif %}   
+                </div>
+            </div>            
+            {% endif %}                
+        {% endfor %}
+    </div>
+
+</div>
+    
 {% endblock content %}
-
+    
