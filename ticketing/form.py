@@ -1,3 +1,3 @@
 from django import forms
 
-from .models import Event, Location
+from .models import Event, Location, Event_participant
