@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
+from datetime import date, datetime
+
 # Create your models here.
 class Location(models.Model):
     name = models.CharField(default="untitled location", blank=False, null=False, max_length=120)
@@ -28,9 +31,21 @@ class Event(models.Model):
     event_type = models.CharField(blank=True, choices= event_type_choice, max_length=2)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     participant = models.ManyToManyField(User, through='Event_participant', related_name='participants')
+    price = models.DecimalField(decimal_places=0, max_digits=10, default=0)
+    #file = models.ManyToManyField("Event_file", related_name="event_file")
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('ticketing:event_detail_view', kwargs={'id': self.id})
+
+    def get_register_url(self):
+        return reverse('ticketing:event_register_view', kwargs={'id': self.id})
+    
+    @property
+    def is_past_due(self):
+        return date.today() > self.date
 
 class Event_participant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -40,7 +55,7 @@ class Event_participant(models.Model):
         ('2', 'Narasumber')
     ]
     role = models.CharField(blank=False, max_length=1, choices=roles, default='1')
+    pay_status = models.BooleanField(default=False)
 
     def __str__(self):
         return "{} {}".format(self.user.first_name, self.user.last_name)
-
