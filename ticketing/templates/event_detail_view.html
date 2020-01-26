@@ -52,6 +52,27 @@
                 </div>
             </div>
         </div>  
+        <div class="col-lg-6">
+            <div class="card shadow mb-4 ">
+                <div class="card-header">
+                    <h5 class="text-danger font-weight-bold m-0">File Pendukung</h5>
+                </div>
+                <div class="card-body">  
+                    {% for data in object.data.all %}    
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <h6 class="font-weight-bold m-0">
+                                <a href="{{data.file.url}}">
+                                    <i class="far fa-file-alt mr-2"></i>
+                                    <span>{{data.file.name}}</span> 
+                                </a>
+                            </h6>
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>  
     </div>
 </div>
     
