@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Event, Event_participant
+from .models import Event, EventParticipant
 # Create your views here.
 
 def event_list_view(request, *args, **kwargs):
@@ -23,12 +23,12 @@ def event_detail_view(request, id):
 
 def event_register_view(request, id):
     event = Event.objects.get(id=id) 
-    created = Event_participant.objects.filter(user=request.user, event=event).exists()
+    created = EventParticipant.objects.filter(user=request.user, event=event).exists()
 
     if created:
         return HttpResponseRedirect(reverse('ticketing:event_registered_view'))
     else:
-        create = Event_participant.objects.create(user=request.user, event=event)
+        create = EventParticipant.objects.create(user=request.user, event=event)
     
     return HttpResponse("Pendaftaran Sukses")
 
