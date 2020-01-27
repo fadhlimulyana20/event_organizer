@@ -15,8 +15,10 @@ def event_list_view(request, *args, **kwargs):
 
 def event_detail_view(request, id):
     obj = get_object_or_404(Event, id=id)
+    event_participant = EventParticipant.objects.filter(user=request.user, event=obj, pay_status = True)
     context = {
-        'object' : obj
+        'object' : obj,
+        'event_participant' : event_participant
     }
 
     return render(request, 'event_detail_view.html', context)

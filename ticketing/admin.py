@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import Event, Location, EventParticipant, DataEvent
 
 class EventParticipantAdmin(admin.ModelAdmin):
-    list_display = ('user', 'event', 'role')
+    list_display = ('user', 'event', 'role', 'pay_status')
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ('id','name', 'event_type', 'date', 'time')
