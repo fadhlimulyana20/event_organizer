@@ -1,12 +1,89 @@
-{% extends 'base.html' %}
-
+{% extends 'dashboard.html' %}
+    
 
 {% block content %}
-<ul>
-    {% for instance in object_list %}
-        <li><a href="{{instance.get_absolute_url}}"> {{instance.id}} - {{instance.name}}</a> </li>
-    {% endfor %}
-    </ul>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="h5 font-weight-bold text-primary text-uppercase mb-0">
+                        Seminar
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="h5 font-weight-bold text-success text-uppercase mb-0">
+                        Workshop
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="h5 font-weight-bold text-danger text-uppercase mb-0">
+                        Pelatihan
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="h5 font-weight-bold text-warning text-uppercase mb-0">
+                        Seminar dan Workshop
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow">
+        <div class="card-header">
+            <h5 class="text-danger font-weight-bold m-0">Daftar Event</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush"> 
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead">
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Event</th>
+                            <th scope="col">Tipe</th>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Lokasi</th>
+                            <th scope="col">Handle</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for instance in object_list %}
+                            {% if instance.is_past_due != True and instance.event_type == "SM" %}   
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{instance.name}}</td>
+                                <td>{{instance.get_event_type_display}}</td>
+                                <td>{{instance.date}}</td>
+                                <td>{{instance.location.city}}</td>
+                                <td>
+                                    <a href="{{instance.get_absolute_url}}">
+                                        <i class="fas fa-search mr-1"></i>
+                                        <span>Lihat</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </ul>
+        </div>
+    </div> 
+</div>
     
 {% endblock content %}
     
