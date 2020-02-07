@@ -45,8 +45,8 @@ class SignInForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput())
 
-    username.widget.attrs['class'] = 'form-control form-control-user'
-    password.widget.attrs['class'] = 'form-control form-control-user'
+    username.widget.attrs['class'] = 'input100'
+    password.widget.attrs['class'] = 'input100'
 
     username.widget.attrs['placeholder'] = 'Username'
     password.widget.attrs['placeholder'] = 'Password'

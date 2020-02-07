@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from filemanager.models import Data
+from django.utils import timezone
+from payment.models import Invoice
 
 # Create your models here.
 class Location(models.Model):
@@ -21,6 +23,7 @@ class Event(models.Model):
     name = models.CharField(default="untitled event", blank=False, null=False, max_length=120)
     date = models.DateField(auto_now=False, auto_now_add=False)
     time = models.TimeField(auto_now_add=False, auto_now=False)
+    due_registration = models.DateField(auto_now=False, auto_now_add=False, default=datetime.now()-timedelta(days=3))
     topic = models.CharField(default="untitled topic", blank=False, null=False, max_length=120)
     event_type_choice = [
         ('SM', 'Seminar'),
@@ -44,9 +47,16 @@ class Event(models.Model):
     def get_register_url(self):
         return reverse('ticketing:event_register_view', kwargs={'id': self.id})
     
+    def get_payment_url(self):
+        return reverse('ticketing:payment_detail_view', kwargs={'id': self.id})
+
+    
     @property
     def is_past_due(self):
-        return date.today() > self.date
+        return date.today() >= self.date
+
+    def is_registration_due(self):
+        return date.today() >= self.due_registration
 
 class EventParticipant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -56,7 +66,8 @@ class EventParticipant(models.Model):
         ('2', 'Narasumber')
     ]
     role = models.CharField(blank=False, max_length=1, choices=roles, default='1')
-    pay_status = models.BooleanField(default=False)
+    payment = models.OneToOneField('EventPayment', on_delete=models.CASCADE, null=True)
+    invoice = models.OneToOneField(Invoice, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "{} {}".format(self.user.first_name, self.user.last_name)
@@ -67,3 +78,8 @@ class DataEvent(models.Model):
 
     def __str__(self):
         return self.data.file.name
+
+class EventPayment(models.Model):
+    due_date = models.DateTimeField(auto_now=False, auto_now_add=False, default=timezone.now()+timedelta(days=2))
+    pay_status = models.BooleanField(blank=False, null=False, default=False)
+    image_receipt = models.ImageField(upload_to='images/transfer_receipt/', blank=True, null=True)

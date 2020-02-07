@@ -1,0 +1,73 @@
+{% extends 'dashboard.html' %}
+{% load i18n %}
+{% load humanize %}
+
+
+{% block content %}
+{% language 'id' %}
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-center mb-2">
+        <h5 class="h3 mb-0 text-gray-800 mb-2 font-weight-bold">
+            Daftar Tagihan Anda
+        </h5>
+    </div>
+    {% for instance in invoice_list %}
+        {% if instance.is_invoice_due == False %} 
+        <div class="card sunatlem-panel mx-auto mb-4">
+            <div class="card-body">
+                <div class="d-flex bd-highlight">
+                    <div class="p-2 flex-grow-1 bd-highlight">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h5 class="font-weight-bold mb-0">{{instance.eventparticipant.event.name}} </h5>
+                                <p class="mb-1">#{{instance.number}}</p>
+                                {% if instance.account.role == '1' %}
+                                    <p class="font-weight-bold mb-0">Transfer Bank</p>
+                                    <p class="mb-0">ke {{instance.account.number}}</p>
+                                    <p class="mb-1">a/n {{instance.account.name}}</p>
+                                {% endif %}
+                                    
+                            </div>
+                            <div class="col-lg-6">
+                                <p class="font-weight-bold mb-0">Bayar Sebelum</p>
+                                <p class="font-weight-light mb-0">{{instance.due_date|date:'d F Y'}} Pukul {{instance.due_date|date:'H:i'}}</p>                
+                                {% if instance.pay_status %}
+                                    <p class="font-weight-bold text-success">Lunas</p>
+                                {% else %}
+                                    <p class="font-weight-bold text-danger">Belum Terbayar</p>
+                                {% endif %}
+                                    
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="p-2 bd-highlight border-left">
+                        <p class="mb-0">Total</p>
+                        <p class="text-danger">Rp. {{instance.eventparticipant.event.price|intcomma}}</p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-2 mb-2">
+                    <a href="{{instance.get_payment_url}}" type="button" class="btn btn-sm btn-info font-weight-bold">
+                        Lihat Detail Pembayaran
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endlanguage %}
+{% endblock content %}
+    
+
+{% block jquery %}
+<script>
+$(document).ready(function(){
+    $('#invoice').addClass('active');
+    $('#my_invoice').addClass('active');
+})
+</script>
+    
+{% endblock jquery %}
+    
+    

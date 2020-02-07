@@ -1,0 +1,201 @@
+{% extends 'dashboard.html' %}
+{% load i18n %}
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body"> 
+            <h5 class="text-danger text-center font-weight-bold mb-4">Segera Selesaikan Pembayaran Anda</h5>
+            <div class="card border-secondary timer-panel mx-auto mb-4">
+                <div class="card-body">
+                    <h6 class="text-center font-weight-bold">Sisa Waktu Pembayaran Anda</h6>
+                    <h4 class="text-center"> 
+                        <div class="timer" id="days"></div>
+                        <div class="timer" id="hours"></div>
+                        <div class="timer" id="minutes"></div>
+                        <div class="timer" id="seconds"></div>
+                        <div class="timer" id="finish"></div>
+                    </h4>
+                </div>
+            </div>
+            <div class="alert alert-warning timer-panel mx-auto" role="alert">
+                <h6 class="text-center">
+                    {% language 'id' %}
+                        Bayar sebelum {{event_participant.0.payment.due_date|date:"l, d M Y"}} pukul {{event_participant.0.payment.due_date|date:"H:m:i "}}
+                    {% endlanguage %}
+                </h6>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target=".bd-example-modal-lg">
+                    <span class="icon text-white-50"><i class="fas fa-receipt"></i></span>
+                    <span class="text">Unggah Bukti Pembayaran</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal upload -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger font-weight-bold">Upload Bukti Pembayaran</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-secondary bg-gray-100 mt-2" role="alert">
+                    <i class="fas fa-lightbulb text-warning"></i>
+                    Unggah bukti pembayaran dapat mempercepat verifikasi pembayaran
+                </div>
+                <p>Pastikan bukti pembayaran menampilkan:</p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul>
+                            <li class="font-weight-bold">Tanggal/Waktu Transfer</li>
+                            <li class="list-unstyled">contoh: tgl. 04/06/19 / jam 07:24:06</li>
+                            <li class="font-weight-bold">Status Berhasil</li>
+                            <li class="list-unstyled">contoh: Transfer BERHASIL, Transaksi Sukses</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul>
+                            <li class="font-weight-bold">Detail Penerima</li>
+                            <li class="list-unstyled">contoh: Transfer ke Rekening PT ASM</li>
+                            <li class="font-weight-bold">Jumlah Transfer</li>
+                            <li class="list-unstyled">contoh: Rp 123.456,00</li>
+                        </ul>
+                    </div>
+                </div>                
+                {% if event_participant.0.payment.image_receipt.url %}    
+                <button id="delete_receipt" class="btn btn-danger">Ganti</button>
+                <img id="image_receipt_uploaded" src="{{event_participant.0.payment.image_receipt.url}}" alt="your image" class="img-fluid img-thumbnail"/>
+                {% else %}
+                <form action="" method="POST" class="mb-2" enctype='multipart/form-data'>
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        {{form.image_receipt}}
+                        <input type="submit" id="upload_btn" value="Upload" class="collapse btn btn-primary">
+                    </div>
+                </form>
+                <img id="image_receipt_preview" src="#" alt="your image" class="collapse img-fluid img-thumbnail"/>
+                {% endif %}
+
+                <!-- form edit receipt -->
+                <form action="" method="POST" class="mb-2 collapse" enctype='multipart/form-data' id='edit-receipt'>
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        {{form.image_receipt}}
+                        <button type="button" id="undelete_receipt" class="collapse btn btn-info mr-2">Batal</button>
+                        <input type="submit" id="upload_btn" value="Upload" class="collapse btn btn-primary">
+                    </div>
+                </form>
+                <img id="image_receipt_preview" src="#" alt="your image" class="collapse img-fluid img-thumbnail"/>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+@media only screen and (min-width: 500px) {
+    .timer-panel{
+        width: 540px;
+    }
+}
+
+
+.timer {
+  display: inline-block;
+}
+    .counter-name {
+  display: block;
+}
+</style>
+
+{% endblock content %}
+    
+
+{% block jquery %}
+<script>
+function makeTimer() {
+
+//		var endTime = new Date("29 April 2018 9:56:00 GMT+01:00");	
+        var endTime = new Date('{{event_participant.0.payment.due_date|date:"d M Y H:m:i "}}');			
+            endTime = (endTime/ 1000);
+
+        var now = new Date();
+        now = (Date.parse(now) / 1000);
+
+        if(now<=endTime){
+            var timeLeft = endTime - now;
+        }else{
+            var timeLeft = -1;
+        }
+
+        var days = Math.floor(timeLeft / 86400); 
+        var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+        var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+        var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+        
+        if (hours < "10") { hours = "0" + hours; }
+        if (minutes < "10") { minutes = "0" + minutes; }
+        if (seconds < "10") { seconds = "0" + seconds; }
+
+        if(timeLeft >= 0){
+            $("#days").html(days + " :" + "<span class='counter-name h5'> Hari</span>");
+            $("#hours").html(hours + " :" + "<span class='counter-name h5'> Jam</span>");
+            $("#minutes").html(minutes + " :" + "<span class='counter-name h5'> Menit</span>");
+            $("#seconds").html(seconds + "<span class='counter-name h5'> Detik</span>");
+        }else if(timeLeft < 0){
+            $("#days").html();
+            $("#hours").html();
+            $("#minutes").html();
+            $("#seconds").html();
+            $("#finish").html("<span>Finish</span>");
+        }		
+
+}
+
+setInterval(function() { makeTimer(); }, 1000);
+
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+        // if($('#undelete_receipt').length){
+        //     $('#undelete_receipt').collapse('hide');
+        // }
+      $('#image_receipt_preview').attr('src', e.target.result);
+      $('#image_receipt_preview').collapse('show');
+      $('#upload_btn').collapse('show');
+    }
+    
+    reader.readAsDataURL(input.files[0]);
+  }else{
+    $('#image_receipt_preview').collapse('hide');
+    $('#upload_btn').collapse('hide');
+    }
+}
+
+$("#image_receipt").change(function() {
+  readURL(this);
+});
+
+$('#delete_receipt').on('click', function(){
+    $(this).hide();
+    $('#image_receipt_uploaded').hide();
+    $('#edit-receipt').collapse('show');
+    $('#undelete_receipt').collapse('show');
+});
+
+$('#undelete_receipt').on('click', function(){
+    $(this).collapse('hide');
+    $('#delete_receipt').show();
+    $('#image_receipt_uploaded').show();
+    $('#edit-receipt').collapse('hide');
+});
+
+</script>
+    
+{% endblock jquery %}
+    

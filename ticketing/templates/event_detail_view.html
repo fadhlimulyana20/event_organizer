@@ -48,7 +48,7 @@
                                 <span class="badge badge-primary badge-pill">{{object.participant.count}}</span>
                             </h6>
                         </li> 
-                        {% if not event_participant and not object.is_past_due %}
+                        {% if not event_participant.0.payment.pay_status and not object.is_registration_due %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <h6 class="font-weight-bold m-0">
                                 <i class="fas fa-tags mr-1"></i>
@@ -61,7 +61,7 @@
             </div>
         </div>  
         <div class="col-lg-6">
-            {% if event_participant.count > 0 %}    
+            {% if event_participant.0.payment.pay_status %}    
             <div class="card shadow mb-4 ">
                 <div class="card-header">
                     <h5 class="text-danger font-weight-bold m-0">File Pendukung</h5>
@@ -81,45 +81,60 @@
                     {% endfor %}
                 </div>
             </div>
+            {% elif event_participant.0.payment.pay_status == False and event_participant|length > 0 and object.is_registration_due == False %}
+            <div class="card shadow mb-6">
+                <div class="card-header">
+                    <h5 class="text-danger font-weight-bold m-0">Pilihan Registrasi</h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Silakan lakukan pembayaran maksimal 2x24 jam setelah melakukan pendaftaran. Jika Pembayaran tidak dilakukan atau sudah melewati batas waktu maka pendaftaran akan dibatalkan secara otomatis.
+                    </p>
+                    <a href="{{object.get_payment_url}}" class="btn btn-success btn-icon-split mb-2" role="button">
+                        <span class="icon text-white">
+                            <i class="fas fa-money-bill"></i>
+                        </span>
+                        <span class="text">Bayar Sekarang</span>
+                    </a>
+                    <a href="" class="btn btn-danger btn-icon-split mb-2" role="button" aria-pressed="true" data-toggle="modal" data-target="#cancel">
+                        <span class="icon text-white">
+                            <i class="fas fa-ban"></i>
+                        </span>
+                        <span class="text">Batalkan Pendaftaran</span>
+                    </a>
+                </div>
+            </div>
+            {% elif event_participant|length == 0 and object.is_registration_due == False %}
+            <div class="card shadow mb-6">
+                <div class="card-header">
+                    <h5 class="text-danger font-weight-bold m-0">Pendaftaran</h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Anda Belum Terdaftar pada event ini. Apakah anda akan mendaftarkan diri untuk mengikuti event ini?
+                    </p>
+                    <a href="{{object.get_register_url}}" class="btn btn-success btn-icon-split mb-2" role="button">
+                        <span class="icon text-white">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                        <span class="text">Daftar Sekarang</span>
+                    </a>
+                </div>
+            </div>
             {% else %}
-                {% if not object.is_past_due %}
-                <div class="card shadow mb-6">
-                    <div class="card-header">
-                        <h5 class="text-danger font-weight-bold m-0">Pilihan Registrasi</h5>
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            Silakan lakukan pembayaran maksimal 2x24 jam setelah melakukan pendaftaran. Jika Pembayaran tidak dilakukan atau sudah melewati batas waktu maka pendaftaran akan dibatalkan secara otomatis.
-                        </p>
-                        <a href="" class="btn btn-success btn-icon-split mb-2" role="button" aria-pressed="true" data-toggle="modal" data-target="#payment">
-                            <span class="icon text-white">
-                                <i class="fas fa-money-bill"></i>
-                            </span>
-                            <span class="text">Bayar Sekarang</span>
-                        </a>
-                        <a href="" class="btn btn-danger btn-icon-split mb-2" role="button" aria-pressed="true" data-toggle="modal" data-target="#cancel">
-                            <span class="icon text-white">
-                                <i class="fas fa-ban"></i>
-                            </span>
-                            <span class="text">Batalkan Pendaftaran</span>
-                        </a>
-                    </div>
+            <div class="card shadow mb-6">
+                <div class="card-header">
+                    <h5 class="text-danger font-weight-bold m-0">Mohon Maaf</h5>
                 </div>
-                {% else %}
-                <div class="card shadow mb-6">
-                    <div class="card-header">
-                        <h5 class="text-danger font-weight-bold m-0">Mohon Maaf</h5>
+                <div class="card-body">
+                    <div class="text-center">
+                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4 w-75" alt="" src="{% static 'img/undraw_throw_away_ldjd.svg' %}">
                     </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4 w-75" alt="" src="{% static 'img/undraw_throw_away_ldjd.svg' %}">
-                        </div>
-                        <h5>
-                            Event yang anda cari telah terlewat atau telah selesai.
-                        </h5>
-                    </div>
+                    <h5>
+                        Event yang anda cari telah terlewat atau telah selesai.
+                    </h5>
                 </div>
-                {% endif %}
+            </div>
             {% endif %}
         </div>  
     </div>
@@ -172,4 +187,16 @@
 </div>
     
 {% endblock content %}
+
+
+{% block jquery %}
+<script>
+    $(document).ready(function(){
+        $('#event').addClass('active');
+    })
+
+</script>
+    
+{% endblock jquery %}
+    
     

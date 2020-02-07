@@ -10,3 +10,17 @@
     font-weight:normal;
     font-size:32px;
 }
+
+@media only screen and (min-width: 500px) {
+    .sunatlem-panel{
+        width: 740px;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .sunatlem.toggled {
+        width: 0 !important;
+        overflow: hidden !important;
+      }
+}
+

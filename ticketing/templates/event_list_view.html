@@ -3,51 +3,127 @@
 
 {% block content %}
 <div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h5 class="h3 mb-0 text-gray-800 mb-2">
+            Pendaftaran Event Sunatlem yang Akan Datang
+        </h5>
+    </div>
+
+    <!-- alert section -->
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        <h4 class="alert-heading">Petunjuk</h4>
+        <p>Pilih salah satu menu dari event yang tersedia untuk mendaftar pada event SunatLem Indonesia.</p>
+    </div>
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div id="backButton" class="collapse">
+            <h5 class="h5 mb-0 text-gray-800">
+                <i class="fas fa-arrow-alt-circle-left"></i>
+                <span class="ml-1">Kembali</span>
+            </h5>
+        </div>    
+    </div>
     <div class="row">
-        <div class="col-xl-3 col-md-6 mb-4">
+        <!-- Seminar General Section -->
+        <div class="col-xl-3 col-md-6 mb-4 collapse" id="seminarGeneral">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="h5 font-weight-bold text-primary text-uppercase mb-0">
-                        Seminar
+                    <div class="row">
+                        <div class="col mr-2">
+                            <a data-toggle="collapse" href="#collapseSeminar" id="seminarToggle">
+                                <div class="h5 font-weight-bold text-primary text-uppercase mb-0">
+                                    Seminar
+                                </div> 
+                            </a>                      
+                        </div>
+                        <div class="col-auto">
+                            <h3 class="text-gray-300">
+                                {{seminar_list|length}}     
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
+
+        <!-- Workshop General Section -->
+        <div class="col-xl-3 col-md-6 mb-4 collapse" id="workshopGeneral">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="h5 font-weight-bold text-success text-uppercase mb-0">
-                        Workshop
+                    <div class="row">
+                        <div class="col mr-2">
+                            <a data-toggle="collapse" href="#collapseWorkshop" id="workshopToggle">
+                                <div class="h5 font-weight-bold text-success text-uppercase mb-0">
+                                    Workshop
+                                </div>  
+                            </a>                        
+                        </div>
+                        <div class="col-auto">
+                            <h3 class="text-gray-300">
+                                {{workshop_list|length}} 
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
+
+        <!-- Pelatihan General Section -->
+        <div class="col-xl-3 col-md-6 mb-4 collapse" id="pelatihanGeneral">
             <div class="card border-left-danger shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="h5 font-weight-bold text-danger text-uppercase mb-0">
-                        Pelatihan
+                    <div class="row">
+                        <div class="col mr-2">
+                            <a data-toggle="collapse" href="#collapsePelatihan" id="pelatihanToggle">
+                                <div class="h5 font-weight-bold text-danger text-uppercase mb-0">
+                                    Pelatihan
+                                </div>
+                            </a>                    
+                        </div>
+                        <div class="col-auto">
+                            <h3 class="text-gray-300">
+                                {{pelatihan_list|length}}
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6 mb-4">
+
+        <!-- Seminar dan Workshop General Section -->
+        <div class="col-xl-3 col-md-6 mb-4 collapse" id="seminarworkshopGeneral">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
-                    <div class="h5 font-weight-bold text-warning text-uppercase mb-0">
-                        Seminar dan Workshop
+                    <div class="row">
+                        <div class="col mr-2">
+                            <a data-toggle="collapse" href="#collapseSeminarWorkshop" id="seminarworkshopToggle">
+                                <div class="h5 font-weight-bold text-warning text-uppercase mb-0">
+                                    Seminar dan Workshop
+                                </div> 
+                            </a>            
+                        </div>
+                        <div class="col-auto">
+                            <h3 class="text-gray-300">
+                                {{seminar_workshop_list|length}}
+                            </h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card shadow">
+    <!-- seminar list section -->
+    <div class="card shadow mb-4 collapse" id="collapseSeminar">
         <div class="card-header">
-            <h5 class="text-danger font-weight-bold m-0">Daftar Event</h5>
+            <h5 class="text-primary font-weight-bold m-0">Daftar Seminar</h5>
         </div>
         <div class="card-body">
             <ul class="list-group list-group-flush"> 
                 <div class="table-responsive">
+                    {% if seminar_list|length > 0 %}
                     <table class="table table-hover">
                         <thead class="thead">
                           <tr>
@@ -60,8 +136,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                            {% for instance in object_list %}
-                            {% if instance.is_past_due != True and instance.event_type == "SM" %}   
+                            {% for instance in seminar_list %}  
                             <tr>
                                 <th scope="row">{{forloop.counter}}</th>
                                 <td>{{instance.name}}</td>
@@ -75,15 +150,217 @@
                                     </a>
                                 </td>
                             </tr>
-                            {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
+                    {% else %}
+                        <h5>Belum ada event tersedia yang akan datang</h5>
+                    {% endif %}
                 </div>
             </ul>
         </div>
-    </div> 
+    </div>
+
+    <!-- workshop list section -->
+    <div class="card shadow mb-4 collapse" id="collapseWorkshop">
+        <div class="card-header">
+            <h5 class="text-success font-weight-bold m-0">Daftar Workshop</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush"> 
+                <div class="table-responsive">
+                    {% if workshop_list|length > 0 %}
+                    <table class="table table-hover">
+                        <thead class="thead">
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Event</th>
+                            <th scope="col">Tipe</th>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Lokasi</th>
+                            <th scope="col">Handle</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for instance in workshop_list %}  
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{instance.name}}</td>
+                                <td>{{instance.get_event_type_display}}</td>
+                                <td>{{instance.date}}</td>
+                                <td>{{instance.location.city}}</td>
+                                <td>
+                                    <a href="{{instance.get_absolute_url}}">
+                                        <i class="fas fa-search mr-1"></i>
+                                        <span>Lihat</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <h5>Belum ada event tersedia yang akan datang</h5>
+                    {% endif %}
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <!-- pelatihan list section -->
+    <div class="card shadow mb-4 collapse" id="collapsePelatihan">
+        <div class="card-header">
+            <h5 class="text-danger font-weight-bold m-0">Daftar Pelatihan</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush"> 
+                <div class="table-responsive">
+                    {% if pelatihan_list|length > 0 %}
+                    <table class="table table-hover">
+                        <thead class="thead">
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Event</th>
+                            <th scope="col">Tipe</th>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Lokasi</th>
+                            <th scope="col">Handle</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for instance in pelatihan_list %}  
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{instance.name}}</td>
+                                <td>{{instance.get_event_type_display}}</td>
+                                <td>{{instance.date}}</td>
+                                <td>{{instance.location.city}}</td>
+                                <td>
+                                    <a href="{{instance.get_absolute_url}}">
+                                        <i class="fas fa-search mr-1"></i>
+                                        <span>Lihat</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <h5>Belum ada event tersedia yang akan datang</h5>
+                    {% endif %}
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <!-- seminar workshop list section -->
+    <div class="card shadow mb-4 collapse" id="collapseSeminarWorkshop">
+        <div class="card-header">
+            <h5 class="text-warning font-weight-bold m-0">Daftar Seminar dan Workshop</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush"> 
+                <div class="table-responsive">
+                    {% if seminar_workshop_list|length > 0 %}
+                    <table class="table table-hover">
+                        <thead class="thead">
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Event</th>
+                            <th scope="col">Tipe</th>
+                            <th scope="col">Tanggal</th>
+                            <th scope="col">Lokasi</th>
+                            <th scope="col">Handle</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for instance in seminar_workshop_list %}  
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{instance.name}}</td>
+                                <td>{{instance.get_event_type_display}}</td>
+                                <td>{{instance.date}}</td>
+                                <td>{{instance.location.city}}</td>
+                                <td>
+                                    <a href="{{instance.get_absolute_url}}">
+                                        <i class="fas fa-search mr-1"></i>
+                                        <span>Lihat</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <h5>Belum ada event tersedia yang akan datang</h5>
+                    {% endif %}
+                </div>
+            </ul>
+        </div>
+    </div>
+
 </div>
     
 {% endblock content %}
+
+
+{% block jquery %}
+<script>
+    $(document).ready(function(){
+        $('#event').addClass('active');
+        $('#register_event').addClass('active');
+
+        $("#seminarGeneral").collapse('toggle');
+        $("#workshopGeneral").collapse('toggle');
+        $("#pelatihanGeneral").collapse('toggle');
+        $("#seminarworkshopGeneral").collapse('toggle');
+
+        $("#backButton").on("click", function(){
+            $("#backButton").collapse('toggle');
+            $("#seminarGeneral").collapse('show');
+            $("#workshopGeneral").collapse('show');
+            $("#pelatihanGeneral").collapse('show');
+            $("#seminarworkshopGeneral").collapse('show');
+
+            $("#collapseSeminar").collapse('hide');
+            $("#collapseWorkshop").collapse('hide');
+            $("#collapsePelatihan").collapse('hide');
+            $("#collapseSeminarWorkshop").collapse('hide');
+
+        });
+
+        $("#seminarToggle").on("click", function(){
+            $("#backButton").collapse('toggle');
+            $("#workshopGeneral").collapse('toggle');
+            $("#pelatihanGeneral").collapse('toggle');
+            $("#seminarworkshopGeneral").collapse('toggle');
+        });
+
+        $("#workshopToggle").on("click", function(){
+            $("#backButton").collapse('toggle');
+            $("#seminarGeneral").collapse('toggle');
+            $("#pelatihanGeneral").collapse('toggle');
+            $("#seminarworkshopGeneral").collapse('toggle');
+        });
+
+        $("#pelatihanToggle").on("click", function(){
+            $("#backButton").collapse('toggle');
+            $("#seminarGeneral").collapse('toggle');
+            $("#workshopGeneral").collapse('toggle');
+            $("#seminarworkshopGeneral").collapse('toggle');
+        });
+
+        
+        $("#seminarworkshopToggle").on("click", function(){
+            $("#backButton").collapse('toggle');
+            $("#seminarGeneral").collapse('toggle');
+            $("#workshopGeneral").collapse('toggle');
+            $("#pelatihanGeneral").collapse('toggle');
+        });
+        
+    });
+</script>
+    
+{% endblock jquery %}
+    
     

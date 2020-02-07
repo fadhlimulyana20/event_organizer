@@ -1,10 +1,10 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Event, Location, EventParticipant, DataEvent
+from .models import Event, Location, EventParticipant, DataEvent, EventPayment
 
 class EventParticipantAdmin(admin.ModelAdmin):
-    list_display = ('user', 'event', 'role', 'pay_status')
+    list_display = ('user', 'event', 'role')
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ('id','name', 'event_type', 'date', 'time')
@@ -16,3 +16,4 @@ admin.site.register(Event, EventAdmin)
 admin.site.register(Location)
 admin.site.register(EventParticipant, EventParticipantAdmin)
 admin.site.register(DataEvent, DataEventAdmin)
+admin.site.register(EventPayment)
