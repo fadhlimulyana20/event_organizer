@@ -22,10 +22,16 @@ class SignUpForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['placeholder'] = 'Username'
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Nama Depan'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Nama Belakang'
+        self.fields['email'].widget.attrs['placeholder'] = 'Email'
+        self.fields['password1'].widget.attrs['placeholder'] = 'Password'
+        self.fields['password2'].widget.attrs['placeholder'] = 'Konfirmasi Password'
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs['class'] = 'input100'
             if visible.field.help_text :
-                 visible.field.widget.attrs.update({'class':'form-control has-popover', 'data-content':visible.field.help_text, 'data-placement':'bottom', 'data-container':'body'})
+                 visible.field.widget.attrs.update({'class':'input100 has-popover', 'data-content':visible.field.help_text, 'data-placement':'bottom', 'data-container':'body'})
 
     def clean_email(self):
         # Get the email

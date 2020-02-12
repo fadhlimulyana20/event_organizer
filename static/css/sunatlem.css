@@ -8,7 +8,7 @@
 .sunatlem-brand {
     font-family:'GROBOLD';
     font-weight:normal;
-    font-size:32px;
+    font-size:48px;
 }
 
 @media only screen and (min-width: 500px) {
@@ -22,5 +22,88 @@
         width: 0 !important;
         overflow: hidden !important;
       }
+}
+
+/* home cover */
+.home-cover{
+    height: 640px;
+    background-image: url('../img/bg-pattern.png');
+    background-color: #ffa7a7;
+    text-align: center;
+    
+}
+
+.home-cover h1{
+    color: #f73737;
+    font-size: 32px;
+}
+
+.home-cover h1 span{
+    color: black;
+}
+
+.button{
+    border-radius: 30px;
+}
+
+/*panel section */
+.panel .col-lg-8{
+    margin-top: -100px;
+    height: 150px;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* sign-up panel */
+.signup-panel{
+    margin-top: 70px;
+    padding: 50px 20px 50px 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 960px;
+    border-top: 40px;
+}
+
+/* reset */
+.reset{
+    margin-bottom: 40px;
+    margin-top: 50px;
+}
+
+.reset .login100-pic{
+    display: block !important;
+    width: 100% !important;
+}
+
+
+
+@media (min-width: 992px) {
+/* home cover */
+    .home-cover{
+        text-align: left;
+    }
+
+    .home-cover h1{
+        margin-top: 150px;
+        font-size: 48px;    
+    }
+
+    .signup-panel{
+        padding: 50px 30px 50px 30px;
+    }
+
+    /* reset */
+    .reset{
+        margin-top: 70px;
+    }
+
+    .reset .login100-pic{
+        width: 40% !important;
+    }
+
+    /* reset confirm field */
+    .reset-confirm-field{
+        width: 320px !important;
+    }
 }
 

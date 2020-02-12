@@ -1,0 +1,28 @@
+{% extends 'non-dashboard-base.html' %}
+{% load static %}
+{% block content %}
+  <div class="jumbotron jumbotron-fluid home-cover">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg">
+          <img src="{% static 'img/sunatlem.png' %}" alt="" class="img-fluid">
+        </div>
+        <div class="col-lg">
+          <h1 class="display-4 sunatlem-brand">SunatLem <span>Indonesia</span></h1>
+          <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+          <a href="{% url 'registration:sign_in' %}" type="button" class="btn btn-primary button">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- panel section -->
+  <div class="container">
+    <div class="row panel justify-content-center">
+      <div class="col-lg-8 bg-white d-flex justify-content-center">
+
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+    

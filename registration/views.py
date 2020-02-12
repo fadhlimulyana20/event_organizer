@@ -19,16 +19,19 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('registration:home'))
 
 def home_view(request):
-    if request.user.is_authenticated:
-        profile = Profile.objects.get(id=request.user.id)
-        event_active = EventParticipant.objects.filter(user=request.user)
+    if  request.user.is_active:
+        if request.user.is_authenticated:
+            profile = Profile.objects.get(id=request.user.id)
+            event_active = EventParticipant.objects.filter(user=request.user)
+        else :
+            profile = None
+        context = {
+            'profile' : profile,
+            'event_active' : event_active
+        }
+        return render(request, 'dash.html', context)
     else :
-        profile = None
-    context = {
-        'profile' : profile,
-        'event_active' : event_active
-    }
-    return render(request, 'home.html', context)
+        return render(request, 'home.html')
 
 def signup_view(request):
     form = SignUpForm(request.POST)
