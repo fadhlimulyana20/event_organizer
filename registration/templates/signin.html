@@ -42,6 +42,16 @@
                         <label class="h6" for="ShowPassword">Tampilkan password</label>
 					</div>
 
+					{% for message in messages %}
+
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+
+                        {{ message }}
+
+                    </div>
+            		{% endfor %}
+
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn" type="submit">
 							Login

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib import messages
 from .form import SignUpForm, SignInForm, UpdateUserForm, ChangeUserPassword, UpdateProfileForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -70,7 +71,8 @@ def signin_view(request):
             else:
                 print("Someone tried to login and failed")
                 print("He used username : {}, password : {}".format(username, password))
-                return HttpResponse("Invalid username or password")
+                messages.error(request,'username atau password salah')
+                return HttpResponseRedirect(reverse('registration:sign_in'))
         else:
             form = SignInForm()
         context = {

@@ -47,11 +47,22 @@
 }
 
 /*panel section */
-.panel .col-lg-8{
+.panel{
     margin-top: -100px;
-    height: 150px;
-    border-radius: 30px;
+    width: 960px;
+    border-radius: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 30px;
+}
+
+.panel img {
+    width: 120px;
+    height: 120px;
+}
+
+.text-panel{
+    margin-top: 40px;
+    text-transform: capitalize;
 }
 
 /* sign-up panel */
@@ -104,6 +115,11 @@
     /* reset confirm field */
     .reset-confirm-field{
         width: 320px !important;
+    }
+
+    /* panel */
+    .panel h5{
+        font-size: 16px;
     }
 }
 
