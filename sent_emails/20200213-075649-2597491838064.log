@@ -1,0 +1,22 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: baba.fadhli@gmail.com
+Date: Thu, 13 Feb 2020 00:56:49 -0000
+Message-ID: <158155540938.4304.5152936709745402798@LAPTOP-KM2863CH>
+
+
+To initiate the password reset process for your fadhlimulyana TestSite Account,
+click the link below:
+
+http://127.0.0.1:8000/reset_password/confirm/MTM%5B0-9A-Za-z%5D+)-5dy-45a0405186fe0386c187/
+
+If clicking the link above doesn't work, please copy and paste the URL in a new browser
+window instead.
+
+Sincerely,
+The TestSite Team
+
+-------------------------------------------------------------------------------
