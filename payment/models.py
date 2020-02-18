@@ -6,6 +6,11 @@ from django.urls import reverse
 # Create your models here.
 class Account(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False, default='Unnamed Account')
+    type_choice = [
+        ('1', 'Bank'),
+        ('2', 'another type'),
+    ]
+    account_type = models.CharField(blank=True, choices= type_choice, max_length=1)
     provider = models.CharField(max_length=100, blank=False, null=False, default='Unnamed Provider')
     number = models.CharField(default='0', max_length=50, blank=False, null=False)
     logo = models.ImageField(upload_to='images/payment/account/', null=True, blank=True)
@@ -19,7 +24,7 @@ class Invoice(models.Model):
     number = models.AutoField(primary_key=True)
     release_date = models.DateTimeField(auto_now=True)
     due_date = models.DateTimeField(auto_now=False, auto_now_add=False, default=timezone.now()+timedelta(days=2))
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
     pay_status = models.BooleanField(blank=False, null=False, default=False)
     image_receipt = models.ImageField(upload_to='images/transfer_receipt/', blank=True, null=True)
 
@@ -28,6 +33,9 @@ class Invoice(models.Model):
     
     def get_payment_url(self):
         return reverse('payment:invoice_detail_view', kwargs={'id': self.number})
+    
+    def get_payment_method_url(self):
+        return reverse('payment:invoice_payment_method_view', kwargs={'id': self.number})
 
 
 class Place(models.Model):

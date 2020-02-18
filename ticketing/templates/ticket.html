@@ -1,0 +1,179 @@
+{% load static %}
+{% load i18n %}
+{% language 'id' %}
+<html>
+    <head>
+        <title>Tiket {{object.name}} </title>
+        <!-- <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i,900" rel="stylesheet" /> -->
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+        <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+        <style>
+        @page {
+            size: "A4";
+            margin: 2.5cm 1.5cm 3.5cm 1.5cm !important;
+            @bottom-center {
+                background-size: auto 1.5cm;
+                padding-top: 1.8cm;
+                font: 10pt "Playfair Display";
+                text-align: center;
+                vertical-align: top;
+            }
+        }
+        .banner{
+            width: 170px;
+        }
+
+        .ticket{
+            width: 640px;
+            height: auto;
+            border-radius: 20px;
+        }
+
+        .ticket-number-sign{
+            text-align: center;
+            margin-bottom: 0;
+            font-weight: bold;
+        }
+
+        .ticket .card-header{
+            background-color: #f8acac;
+
+            border-radius: 20px 20px 0px 0px;
+        }
+
+        .brand .brand-type{
+            margin-top: 1em;
+        }
+        .brand .ticket-number{
+            margin-top: 0 !important;
+            font-size: 14px;
+        }
+
+        .barcode{
+            display: block;
+            width: 170px;
+            height: 100px;
+            margin-top: 1.5em;
+            margin-bottom: 0;
+        }
+
+        .content{
+            margin-top: 1.5em;
+        }
+
+        .detail{
+            margin-top: 1em;
+            margin-left: 1em;
+        }
+
+        .detail h6{
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: inset;
+            border-width: 1px;
+            border-color: #f8acac;
+        }
+
+        .detail span{
+            font-weight: 400;
+        }
+
+        </style>
+<!-- 
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .panel{
+                width: 500px;
+            }
+            .ticket {
+                background-color: #fff;
+                border : inset;
+                border-radius: 30px;
+                border-color: #333;
+                border-width: 0.5px;
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                height: auto;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+            .banner {
+                width: 250px;
+            }
+
+            .column {
+                float: left;
+                column-fill: balance;
+            }
+
+                /* Clear floats after the columns */
+            .row {
+                
+            } -->
+        </style>
+    </head>
+    <body>
+    <div class="card ticket">
+        <div class="card-header text-white">
+            <div class="d-flex justify-content-between brand">
+                <img src="{% static 'img/sunatlem-banner.png' %}" alt="" class="banner">
+                <div>
+                    <h6 class="h5 font-weight-bold brand-type">Ticket</h6>
+                    <p class="ticket-number">#{{event_participant.0.id}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- <div class="row d-print-table-row">
+                <div class="w-50 p-2 d-print-table-cell">
+                    <img src="{% static event_participant.0.barcode %}" alt="" class="barcode">
+                </div>
+                <div class="w-50 p-2 d-print-table-cell">
+                    <h6>Nama : {{event_participant.0.user.first_name}} {{event_participant.0.user.last_name}}</h6>
+                    <h6>Event : {{object.name}}</h6>
+                    <h6>Tanggal : {{object.date|date:"d F Y"}}</h6>
+                    <h6>Email : {{event_participant.0.user.email}}</h6>
+                </div>
+            </div>
+             -->
+            <div class="d-flex justify-content-between content">
+                <div class=""> 
+                    <h6 class="ticket-number-sign">Nomor Tiket</h6>
+                    <img src="{% static event_participant.0.barcode %}" alt="" class="barcode">
+                </div>
+                <div class="detail">
+                    <h6>Nama : <span>{{event_participant.0.user.first_name}} {{event_participant.0.user.last_name}}</span></h6>
+                    <h6>Event : <span>{{object.name}}</span></h6>
+                    <h6>Tanggal : <span>{{object.date|date:"d F Y"}}</span></h6>
+                    <h6>Email : <span>{{event_participant.0.user.email}}</span></h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>
+{% endlanguage %}

@@ -47,10 +47,12 @@
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-6 col-md-4">Status :</div>
-                        {% if invoice.0.pay_status %}
+                        {% if invoice.0.pay_status and invoice.0.image_receipt.url %}
                             <div class="col-md-8 font-weight-bold text-success">Lunas</div>
-                        {% else %}
+                        {% elif invoice.0.pay_status == False and not invoice.0.image_receipt %}
                             <div class="col-md-8 font-weight-bold text-danger">Belum Terbayar</div>
+                        {% elif invoice.0.pay_status == False and invoice.0.image_receipt %}
+                            <div class="col-md-8 font-weight-bold text-warning">Menunggu Konfirmasi</div>
                         {% endif %}
                     </div>
                 </li>
@@ -71,12 +73,15 @@
                     </div>
                 </li>
               </ul>
+            
+            {% if invoice.0.pay_status == False %}         
             <div class="text-center">
                 <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target=".bd-example-modal-lg">
                     <span class="icon text-white-50"><i class="fas fa-receipt"></i></span>
                     <span class="text">Unggah Bukti Pembayaran</span>
                 </button>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -244,6 +249,7 @@ $('#undelete_receipt').on('click', function(){
 
 $(document).ready(function(){
     $('#invoice').addClass('active');
+    $('#invoice_mobile').addClass('active');
     $('#my_invoice').addClass('active');
 });
     

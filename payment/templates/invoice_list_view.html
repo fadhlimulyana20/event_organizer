@@ -23,17 +23,19 @@
                                 <p class="mb-1">#{{instance.number}}</p>
                                 {% if instance.account.role == '1' %}
                                     <p class="font-weight-bold mb-0">Transfer Bank</p>
+                                    <p class="mb-0">{{instance.account.provider}}</p>
                                     <p class="mb-0">ke {{instance.account.number}}</p>
                                     <p class="mb-1">a/n {{instance.account.name}}</p>
-                                {% endif %}
-                                    
+                                {% endif %}      
                             </div>
                             <div class="col-lg-6">
                                 <p class="font-weight-bold mb-0">Bayar Sebelum</p>
                                 <p class="font-weight-light mb-0">{{instance.due_date|date:'d F Y'}} Pukul {{instance.due_date|date:'H:i'}}</p>                
-                                {% if instance.pay_status %}
+                                {% if instance.pay_status and instance.image_receipt %}
                                     <p class="font-weight-bold text-success">Lunas</p>
-                                {% else %}
+                                {% elif instance.pay_status == False and instance.image_receipt %}
+                                    <p class="font-weight-bold text-warning">Menunggu Konfirmasi</p>
+                                {% elif instance.pay_status == False and not instance.image_receipt  %}
                                     <p class="font-weight-bold text-danger">Belum Terbayar</p>
                                 {% endif %}
                                     
@@ -51,6 +53,14 @@
                         Lihat Detail Pembayaran
                     </a>
                 </div>
+                
+                {% if not instance.pay_status and not instance.image_receipt %}    
+                <div class="d-flex justify-content-end mt-2 mb-2">
+                    <a href="{{instance.get_payment_method_url}}" type="button" class="btn btn-sm btn-info font-weight-bold">
+                       Ubah Cara Pembayaran
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </div>
         {% endif %}
@@ -64,6 +74,7 @@
 <script>
 $(document).ready(function(){
     $('#invoice').addClass('active');
+    $('#invoice_mobile').addClass('active');
     $('#my_invoice').addClass('active');
 })
 </script>

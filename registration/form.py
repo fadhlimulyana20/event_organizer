@@ -3,6 +3,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile
+from datetime import date, datetime, timedelta
+from django.utils import timezone
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=100, help_text='First Name')
@@ -33,20 +35,37 @@ class SignUpForm(UserCreationForm):
             if visible.field.help_text :
                  visible.field.widget.attrs.update({'class':'input100 has-popover', 'data-content':visible.field.help_text, 'data-placement':'bottom', 'data-container':'body'})
 
-    def clean_email(self):
-        # Get the email
-        email = self.cleaned_data.get('email')
+    # def clean_email(self):
+    #     # Get the email
+    #     email = self.cleaned_data.get('email')
 
-        # Check to see if any users already exist with this email as a username.
-        try:
-            match = User.objects.get(email=email)
+    #     # Check to see if any users already exist with this email as a username.
+    #     try:
+    #         match = User.objects.get(email=email)
             
-        except User.DoesNotExist:
-        # Unable to find a user, this is fine
-            return email
+    #     except User.DoesNotExist:
+    #     # Unable to find a user, this is fine
+    #         return email
 
-        # A user was found with this as a username, raise an error.
-        raise forms.ValidationError('This email address is already in use.')
+    #     # A user was found with this as a username, raise an error.
+    #     raise forms.ValidationError('This email address is already in use.')
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        email_qs = User.objects.filter(email=email)
+        if email_qs.exists():
+            raise forms.ValidationError("Alamat Email Sudah Dipakai")
+            print("This Email is Already Used")
+        return email
+    
+    def clean_password2(self):
+        password = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        if password != password2:
+            raise forms.ValidationError("Password Harus sama")
+        return password
+
+
 class SignInForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput())
@@ -91,8 +110,28 @@ class ChangeUserPassword(forms.Form):
         print(cleaned_data)
         return cleaned_data
 
+# class DateInput(forms.DateInput):
+#     input_type = 'date' 
 
 class UpdateProfileForm(forms.ModelForm):
+    bio = forms.CharField(max_length=500 , widget=forms.Textarea, required=False)
+    profession = forms.CharField(max_length=100, label="Profesi", required=False)
+    institute = forms.CharField(max_length=100, label="Instansi", required=False)
+    birth_date = forms.DateField(label="Tanggal Lahir", required=False)
+    phone_number = forms.CharField(max_length=20, label="Nomor Telepon", required=False)
+    image_profile = forms.ImageField(required=False, label="Foto Profil")
+
     class Meta:
         model = Profile
-        exclude = ['user',]
+        exclude = ['user', 'address']
+        # widgets = {
+        #     'birth_date': DateInput()
+        # }
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateProfileForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if visible.name != 'image_profile':
+                visible.field.widget.attrs['class'] = 'form-control'
+            # if visible.field.help_text :
+            #      visible.field.widget.attrs.update({'class':'input100 has-popover', 'data-content':visible.field.help_text, 'data-placement':'bottom', 'data-container':'body'})

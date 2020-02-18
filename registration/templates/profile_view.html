@@ -1,0 +1,59 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Profile</h1>
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card shadow mb-4 profile-panel">
+          <div class="card-body mx-auto">
+            <div class="d-flex justify-content-center">
+              <img src="{{profile.image_profile.url}}" alt="" class="img-fluid profile-image rounded">
+            </div>
+            <div class="profile-detail mt-2">
+              <h5 class="font-weight-bold name"></i>{{user.first_name}} {{user.last_name}}</h5>
+              <h6>@{{user.username}}</h6>
+            </div>
+          </div>
+          <h6 class="font-weight-bold">Tentang</h6>
+          <p class="bio">{{profile.bio}}</p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card shadow mb-4 profile-panel profile-panel-detail">
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between">
+                <p class="name"><i class="fas fa-phone"></i><span class="ml-2">Telepon</span></p>
+                <p class="content">{{profile.phone_number}}</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <p class="name"><i class="fas fa-envelope"></i><span class="ml-2">Email</span></p>
+                <p class="content">{{user.email}}</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <p class="name"><i class="fas fa-user-tie"></i><span class="ml-2">Profesi</span></p>
+                <p class="content">{{profile.profession}}</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <p class="name"><i class="far fa-building"></i><span class="ml-2">Instansi</span></p>
+                <p class="content">{{profile.institute}}</p>
+              </li>
+            </ul>
+            <div class="d-flex justify-content-end mt-2">
+              <a href="{% url 'registration:edit_profile' %}" class="btn btn-link"><i class="fas fa-edit"></i> Edit Profil</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+    
+{% endblock content %}
+    

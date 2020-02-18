@@ -1,6 +1,98 @@
-<h2>Edit Profile Form Page</h2>
-<form action="" method="POST" enctype='multipart/form-data'> 
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="save">
-</form>
+{% extends 'dashboard.html' %}
+
+
+{% block content %}   
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h2>Edit Profil</h2>
+            <form action="" method="POST" enctype='multipart/form-data'>
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="{{form.image_profile.id}}" class="col-sm-2 col-form-label">{{form.image_profile.label}}</label>
+                    <div class="col-sm-10">
+                        
+                        {% if profile.image_profile %}
+                        <div>
+                            <img src="{{profile.image_profile.url}}" alt="" class="img-fluid profile-image" id="current-image-profile">
+                            <img id="image_profile_preview" src="#" alt="your image" class="collapse img-fluid profile-image"/>
+                        </div>
+                        <div class="mt-4">
+                            {{form.image_profile}}
+                        </div>
+                        {% endif %}
+                    
+                    </div>
+                </div>
+                {% for field in form %}
+                    {% if field.name != 'image_profile' and field.name != 'birth_date' %}   
+                    <div class="form-group row">
+                        <label for="{{field.id}}" class="col-sm-2 col-form-label">{{field.label}}</label>
+                        <div class="col-sm-10">
+                        {{field}}
+                        </div>
+                    </div>
+                    {% elif field.name == 'birth_date' %}
+                    <div class="form-group row">
+                        <label for="{{field.id}}" class="col-sm-2 col-form-label">{{field.label}}</label>
+                        <div class="col-sm-10">
+                            {{field}}
+                            <div id="datepicker"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="d-flex justify-content-end">
+                    <input type="submit" class="btn btn-primary" value="Simpan">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block jquery %}
+<script>
+    $(function() {
+        $( "#id_birth_date" ).datepicker({
+                dateFormat: "yy-mm-dd",
+                defaultDate: "+1w",
+                changeMonth: true,
+                changeYear: true,
+                numberOfMonths: 1,
+                yearRange: '1945:2006',
+                // onClose: function( selectedDate ) {
+                //         $( "#id_birth_date" ).datepicker( "option", "minDate", selectedDate );
+                // }
+        });
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // if($('#undelete_receipt').length){
+                //     $('#undelete_receipt').collapse('hide');
+                // }
+            $('#image_profile_preview').attr('src', e.target.result);
+            $('#image_profile_preview').collapse('show');
+            $('#current-image-profile').hide();
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }else{
+            $('#image_profile_preview').collapse('hide');
+            $('#current-image-profile').show();
+        }
+    };
+
+    $("#id_image_profile").change(function() {
+        readURL(this);
+    });
+</script>
+    
+{% endblock jquery %}
+
+    

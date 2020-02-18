@@ -1,0 +1,66 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Pilih Metode Pembayaran</h6>
+        </div>
+        <div class="card-body">
+            <div>
+                <h5>
+                    Nomor Invoice : #{{invoice.number}}
+                </h5>
+            </div>
+            <div class="list-group"> 
+                {% if invoice.account != null %}                    
+                <a href="#" class="list-group-item list-group-item-action active">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="font-weight-bold">Metode Saat ini</h6>
+                            <h6 class="payment-item">   
+                                {% if invoice.account.get_account_type_display == 'Bank' %}
+                                Bank Transfer   
+                                {% endif %}
+                            </h6>
+                            <h6 class="payment-item">{{invoice.account.provider}}</h6>
+                            <!-- <h6 class="payment-item">{{instance.number}} a/n {{instance.name}}</h6> -->
+                        </div>
+                        <div class="my-auto">
+                            <img src="{{invoice.account.logo.url}}" alt="" class="img-fluid payment-method-img">
+                        </div>
+                    </div>
+                </a>
+                {% endif %}
+
+                {% for instance in payment_method %}
+                <a href="{% url 'payment:invoice_payment_method_redirect' invoice.number instance.id %}" class="list-group-item list-group-item-action">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="payment-method font-weight-bold">   
+                                {% if instance.get_account_type_display == 'Bank' %}
+                                Bank Transfer   
+                                {% endif %}
+                            </h6>
+                            <h6 class="payment-item">{{instance.provider}}</h6>
+                            <!-- <h6 class="payment-item">{{instance.number}} a/n {{instance.name}}</h6> -->
+                        </div>
+                        <div class="my-auto">
+                            <img src="{{instance.logo.url}}" alt="" class="img-fluid payment-method-img">
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}        
+            </div>    
+            {% if invoice.account != null %}
+            <div class="d-flex justify-content-end mt-4">
+                <a href="{{invoice.get_payment_url}}" type="button" class="btn btn-sm btn-primary">Bayar Sekarang</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    
+{% endblock content %}
+    

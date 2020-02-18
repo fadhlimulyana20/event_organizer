@@ -11,6 +11,10 @@
     font-size:48px;
 }
 
+.sunatlem-brand .dash{
+    text-transform: capitalize;
+}
+
 @media only screen and (min-width: 500px) {
     .sunatlem-panel{
         width: 740px;
@@ -18,10 +22,14 @@
 }
 
 @media only screen and (max-width: 540px) {
-    .sunatlem.toggled {
-        width: 0 !important;
-        overflow: hidden !important;
+    .sunatlem-toggled {
+        display: none;
       }
+
+    .mobile-content{
+        margin-bottom: 6em !important;
+    }
+
 }
 
 /* home cover */
@@ -48,7 +56,7 @@
 
 /*panel section */
 .panel{
-    margin-top: -100px;
+    margin-top: -50px;
     width: 960px;
     border-radius: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -86,7 +94,98 @@
     width: 100% !important;
 }
 
+/* user profile panel */
+.profile-panel{
+    padding: 50px 15px 50px 15px;
+    border-radius: 30px;
+}
 
+.profile-image{
+    width: 150px;
+}
+
+.profile-detail{
+    text-align: center;
+}
+
+.profile-panel .bio{
+    text-align: justify;
+}
+
+.profile-panel .name {
+    background-color: tomato;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 10px 5px 10px;
+}
+
+.profile-panel-detail{
+    padding: 50px 10px 50px 10px !important;
+}
+
+.profile-panel-detail p{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.profile-panel-detail span{
+    display: none;
+}
+
+.profile-panel-detail .content{
+    margin-top: 4px !important;
+}
+
+/* sb2 scroll */
+.scroll-to-top{
+    bottom: 6rem !important;
+}
+
+/* sticky footer */
+.sticky-footer{
+    display: none;
+}
+
+/* mobile navbar section */
+.control li{
+    display: block !important;
+    text-align: center;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.control .active .nav-link{
+    color: lightcoral !important;
+}
+
+.control .fas{
+    display: inline-block;
+}
+
+.control .nav-detail{
+    display: block;
+}
+
+.control .dropup .dropdown-toggle::after{
+    display: none;
+}
+
+#sidebarToggleTop{
+    display: none;
+}
+
+/* payment method */
+.payment-method-img{
+    width: 100px;
+}
+
+.payment-item{
+    font-size: 14px;
+}
+
+/* lecture image in event detail view */
+.lecture-img{
+    width: 100px;
+}
 
 @media (min-width: 992px) {
 /* home cover */
@@ -118,8 +217,36 @@
     }
 
     /* panel */
+    .panel{
+        margin-top: -100px;
+    }
+
     .panel h5{
         font-size: 16px;
     }
+
+    /* profile panel */
+    .profile-panel{
+        padding: 50px 20px 50px 20px;
+    }
+
+    .profile-panel-detail span{
+        display: inline;
+    }
+
+    /* mobile navbar section */
+    .control{
+        display: none;
+    }
+
+    #sidebarToggleTop{
+        display: block;
+    }
+
+    /* sticky footer */
+    .sticky-footer{
+        display: block;
+    }
+    
 }
 

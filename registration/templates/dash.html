@@ -56,4 +56,14 @@
 </div>
     
 {% endblock content %}
+
+{% block jquery %}
+    <script>
+        $(document).ready(function(){
+            $('#home').addClass('active');
+            $('#home_mobile').addClass('active');
+        });
+    </script>
+{% endblock jquery %}
+    
     

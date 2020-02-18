@@ -35,19 +35,21 @@ def home_view(request):
         return render(request, 'home.html')
 
 def signup_view(request):
-    form = SignUpForm(request.POST)
-    if form.is_valid():
-        user = form.save()
-        user.refresh_from_db()
-        email = form.cleaned_data.get('email')
-        user.save()
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password1')
-        user = authenticate(username=username, password=password)
-        login(request, user)
-        return HttpResponseRedirect(reverse('registration:home'))
+    if request.method == 'POST':
+        form = SignUpForm(request.POST or None)
+        if form.is_valid():
+            user = form.save(commit=False)
+            password = form.cleaned_data.get('password1')
+            user.set_password(password)
+            user.save()
+            # email = form.clean_email()
+            # username = form.cleaned_data.get('username')
+            new_user = authenticate(username=user.username, password=password)
+            login(request, new_user)
+            return HttpResponseRedirect(reverse('registration:home'))
     else:
         form = SignUpForm()
+    
     context = {
         'form' : form
     }
@@ -140,12 +142,26 @@ def edit_profile_view(request):
                     update = form.save(commit = False)
                     update.user = user
                     update.save()
-                return HttpResponse('confirm')
+                return HttpResponseRedirect(reverse('registration:profile'))
         else:
             form = UpdateProfileForm(instance=profile)
         context ={
-            'form' :form
+            'form' :form,
+            'profile' :profile
         }
         return render(request, 'edit_profile.html', context)
     else:
         return HttpResponseRedirect(reverse('registration:home'))
+
+def profile_view(request):
+    user = User.objects.get(id=request.user.id)
+    profile = user.profile
+
+    context = {
+        'user' : user,
+        'profile' : profile
+    }
+
+    return render(request, 'profile_view.html', context)
+
+

@@ -10,7 +10,12 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField()
+    profession = models.CharField(max_length=50, blank=True, null=True)
+    institute = models.CharField(max_length=50, blank=True, null=True)
+    birth_date = models.DateField(auto_now_add=False, blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
     image_profile = models.ImageField(upload_to='images/profile/', default='images/profile/default/icons8-user-100.png')
+    address = models.OneToOneField('Address', on_delete=models.CASCADE, null=True, blank=True)
     
     
 
@@ -23,4 +28,14 @@ class Profile(models.Model):
             Profile.objects.create(user=instance)
         instance.profile.save()
     
-    
+class Address(models.Model):
+    name = models.CharField(default="untitled location", blank=False, null=False, max_length=120)
+    street = models.CharField(default="untitled street", blank=False, null=False, max_length=300)
+    sub_district = models.CharField(default="untitled sub district", blank=False, null=False, max_length=120)
+    city = models.CharField(default="untitled city", blank=False, null=False, max_length=120)
+    province_or_state = models.CharField(default="untitled province", blank=False, null=False, max_length=120)
+    country = models.CharField(default="untitled country", blank=False, null=False, max_length=120)
+    postal_code = models.DecimalField(decimal_places=0, max_digits=5)
+
+    def __str__(self):
+        return self.name
