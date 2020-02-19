@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Event, Location, EventParticipant, DataEvent, EventPayment
+from .models import Event, Location, EventParticipant, DataEvent, EventPayment, Document
 
 class EventParticipantAdmin(admin.ModelAdmin):
     list_display = ('user', 'event', 'role')
@@ -17,3 +17,4 @@ admin.site.register(Location)
 admin.site.register(EventParticipant, EventParticipantAdmin)
 admin.site.register(DataEvent, DataEventAdmin)
 admin.site.register(EventPayment)
+admin.site.register(Document)

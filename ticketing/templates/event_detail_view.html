@@ -96,7 +96,7 @@
                                 <div class="my-auto">
                                     <img src="{{instance.user.profile.image_profile.url}}" alt="" class="img-fluid lecture-img rounded">
                                 </div>
-                                <div class="my-auto">
+                                <div class="my-auto ml-4" style="text-align: right;">
                                     <h6 class="font-weight-bold">{{instance.user.first_name}} {{instance.user.last_name}}</h6>
                                     <h6>{{instance.user.profile.bio}}</h6>
                                 </div>
@@ -127,7 +127,7 @@
             {% elif event_participant|length > 0 and object.is_registration_due == False and event_participant.0.invoice.pay_status == True %}
             <div class="card shadow mb-4">
                 <div class="card-header">
-                    <h5 class="text-danger font-weight-bold m-0">Pendaftaran</h5>
+                    <h5 class="text-danger font-weight-bold m-0">Tiket</h5>
                 </div>
                 <div class="card-body">
                     <h6>
@@ -191,6 +191,45 @@
                 </div>
             </div>
             {% endif %}
+            
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h5 class="text-danger font-weight-bold m-0">Rekomendasi SK Organisasi</h5>
+                </div>
+                <div class="card-body"> 
+                    {% for instance in object.document.all %}
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between">
+                                    <div class="my-auto">
+                                        <h6 class="font-weight-bold">{{instance.name}}</h6>
+                                    </div>
+                                    <div class="my-auto">
+                                        <a class="btn btn-link font-weight-bold" data-toggle="collapse" href="#collapse_{{instance.id}}" role="button" aria-expanded="false" aria-controls="{{instance.id}}">
+                                            <span>Detail</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="collapse" id="collapse_{{instance.id}}">
+                                    <div class="card card-body">
+                                        
+                                        {% if instance.file %}
+                                        <h6 class="font-weight-bold m-0">
+                                            <a href="{{instance.file.url}}">
+                                                <i class="far fa-file-alt mr-2"></i>
+                                                <span>{{instance.filename}}</span> 
+                                            </a>
+                                        </h6>
+                                        {% endif %}
+                                            
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>  
+                    {% endfor %}
+                        
+                </div>
+            </div>
                   
         </div>  
     </div>

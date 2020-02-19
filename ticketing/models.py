@@ -6,6 +6,7 @@ from filemanager.models import Data
 from django.utils import timezone
 from payment.models import Invoice
 from .utils import path_and_rename
+import os
 
 # Create your models here.
 class Location(models.Model):
@@ -39,6 +40,7 @@ class Event(models.Model):
     participant = models.ManyToManyField(User, through='EventParticipant', related_name='participants')
     price = models.DecimalField(decimal_places=0, max_digits=10, default=0)
     data = models.ManyToManyField(Data, through="DataEvent", related_name="data_event")
+    document = models.ManyToManyField('Document', related_name='event_document')
 
     def __str__(self):
         return self.name
@@ -95,3 +97,11 @@ class EventPayment(models.Model):
     due_date = models.DateTimeField(auto_now=False, auto_now_add=False, default=timezone.now()+timedelta(days=2))
     pay_status = models.BooleanField(blank=False, null=False, default=False)
     image_receipt = models.ImageField(upload_to='images/transfer_receipt/', blank=True, null=True)
+
+class Document(models.Model):
+    name = models.CharField(default="untitled document", blank=False, null=False, max_length=150)
+    date_of_release = models.DateField(null=True, blank=True)
+    file = models.FileField(upload_to='media/document/pdf/', blank=True, null=True)
+
+    def filename(self):
+        return os.path.basename(self.file.name)
