@@ -28,47 +28,54 @@
             <ul class="list-group list-group-flush timer-panel mx-auto mb-4">
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-6 col-md-4">Name :</div>
-                        <div class="col-md-8">{{invoice.0.eventparticipant.event.name}}</div>
+                        <div class="col-6 col-lg-4">Name :</div>
+                        <div class="col-lg-8">{{invoice.0.eventparticipant.event.name}}</div>
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-6 col-md-4">Jenis :</div>
-                        <div class="col-md-8">{{invoice.0.eventparticipant.event.get_event_type_display}}</div>
+                        <div class="col-6 col-lg-4">Jenis :</div>
+                        <div class="col-lg-8">{{invoice.0.eventparticipant.event.get_event_type_display}}</div>
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-6 col-md-4">Harga :</div>
-                        <div class="col-md-8">Rp. {{invoice.0.eventparticipant.event.price|intcomma}}</div>
+                        <div class="col-6 col-lg-4">Harga :</div>
+                        {% for instance in invoice.0.eventparticipant.event.price_plan.all %}
+                                    
+                        {% if request.user.profile.profession.lower == instance.get_role_display.lower %}
+                        <div class="col-lg-8">Rp. {{instance.price|intcomma}}</div>
+                        {% endif %}
+                        
+                        {% endfor %}
+                        
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-6 col-md-4">Status :</div>
+                        <div class="col-6 col-lg-4">Status :</div>
                         {% if invoice.0.pay_status and invoice.0.image_receipt.url %}
-                            <div class="col-md-8 font-weight-bold text-success">Lunas</div>
+                            <div class="col-lg-8 font-weight-bold text-success">Lunas</div>
                         {% elif invoice.0.pay_status == False and not invoice.0.image_receipt %}
-                            <div class="col-md-8 font-weight-bold text-danger">Belum Terbayar</div>
+                            <div class="col-lg-8 font-weight-bold text-danger">Belum Terbayar</div>
                         {% elif invoice.0.pay_status == False and invoice.0.image_receipt %}
-                            <div class="col-md-8 font-weight-bold text-warning">Menunggu Konfirmasi</div>
+                            <div class="col-lg-8 font-weight-bold text-warning">Menunggu Konfirmasi</div>
                         {% endif %}
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-6 col-md-4">Metode :</div>
+                        <div class="col-6 col-lg-4">Metode :</div>
                         {% if invoice.0.account.role == '1' %}
-                            <div class="col-md-8">Transfer Bank</div>
+                            <div class="col-lg-8">Transfer Bank</div>
                         {% endif %}
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="row">
                         {% if invoice.0.account.role == '1' %}
-                            <div class="col-6 col-md-4">Rekening :</div>
-                            <div class="col-md-8">{{invoice.0.account.number}} a/n {{invoice.0.account.name}}</div>
+                            <div class="col-6 col-lg-4">Rekening :</div>
+                            <div class="col-lg-8">{{invoice.0.account.number}} a/n {{invoice.0.account.name}}</div>
                         {% endif %}
                     </div>
                 </li>

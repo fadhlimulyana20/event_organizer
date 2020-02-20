@@ -39,6 +39,7 @@ class Event(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     participant = models.ManyToManyField(User, through='EventParticipant', related_name='participants')
     price = models.DecimalField(decimal_places=0, max_digits=10, default=0)
+    price_plan = models.ManyToManyField('PricePlan', related_name='event_price_plan')
     data = models.ManyToManyField(Data, through="DataEvent", related_name="data_event")
     document = models.ManyToManyField('Document', related_name='event_document')
 
@@ -105,3 +106,19 @@ class Document(models.Model):
 
     def filename(self):
         return os.path.basename(self.file.name)
+
+    def __str__(self):
+        return '%s(%s)' %(self.name, self.id)
+
+class PricePlan(models.Model):
+    price = models.DecimalField(decimal_places=0, max_digits=20, default=0)
+    role_choices = [
+        ('PR', 'perawat'),
+        ('DR', 'dokter'),
+        ('BD', 'bidan'),
+        ('OT', 'other')
+    ]
+    role= models.CharField(blank=True, choices= role_choices, max_length=2)
+
+    def __str__(self):
+        return '%s(%s)' %(self.price, self.get_role_display())

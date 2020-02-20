@@ -26,6 +26,7 @@
                                     <p class="mb-0">{{instance.account.provider}}</p>
                                     <p class="mb-0">ke {{instance.account.number}}</p>
                                     <p class="mb-1">a/n {{instance.account.name}}</p>
+                                    {{instance.eventparticipant.event.price_plan.all.0.get_role_display.lower}}
                                 {% endif %}      
                             </div>
                             <div class="col-lg-6">
@@ -45,7 +46,13 @@
                     </div>
                     <div class="p-2 bd-highlight border-left">
                         <p class="mb-0">Total</p>
-                        <p class="text-danger">Rp. {{instance.eventparticipant.event.price|intcomma}}</p>
+                        {% for instance in instance.eventparticipant.event.price_plan.all %}
+                                    
+                            {% if request.user.profile.profession.lower == instance.get_role_display.lower %}
+                            <p class="text-danger">Rp. {{instance.price|intcomma}}</p>
+                            {% endif %}
+                            
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-2 mb-2">
