@@ -11,8 +11,8 @@
                     <h5 class="text-danger font-weight-bold m-0">Keterangan Event</h5>
                 </div>
                 <div class="card-body">
-                    {% if event_participant.0.invoice.pay_status %}
                     <ul class="list-group">
+                        {% if event_participant.0.invoice.pay_status %}
                         <li class="list-group-item">  
                             <h6 class="font-weight-bold m-0 text-success">
                                 <i class="far fa-check-circle"></i>
@@ -20,6 +20,16 @@
                             </h6>
                         </li>
                         {% endif %}
+                        
+                        {% if object.is_registration_due %}
+                        <li class="list-group-item">  
+                            <h6 class="font-weight-bold m-0 text-danger">
+                                <i class="far fa-cexclamation-circle"></i>
+                                <span>Pendaftaran sudah ditutup</span> 
+                            </h6>
+                        </li>
+                        {% endif %}
+                            
                         <li class="list-group-item">
                             <h6 class="font-weight-bold m-0">
                                 <i class="far fa-bell mr-1"></i>
@@ -125,6 +135,9 @@
                     <p>
                         Anda Belum Terdaftar pada event ini. Apakah anda akan mendaftarkan diri untuk mengikuti event ini?
                     </p>
+                    <p>
+                        Daftar segera sebelum tanggal {{object.due_registration|date:"d F Y"}}
+                    </p>
                     <a href="{{object.get_register_url}}" class="btn btn-success btn-icon-split mb-2" role="button">
                         <span class="icon text-white">
                             <i class="fas fa-arrow-right"></i>
@@ -133,7 +146,7 @@
                     </a>
                 </div>
             </div>
-            {% elif event_participant|length > 0 and object.is_registration_due == False and event_participant.0.invoice.pay_status == True %}
+            {% elif event_participant|length > 0 and event_participant.0.invoice.pay_status == True %}
             <div class="card shadow mb-4">
                 <div class="card-header">
                     <h5 class="text-danger font-weight-bold m-0">Tiket</h5>
@@ -175,6 +188,15 @@
                         <span class="text">Pilih Metode Pembayaran</span>
                     </a>
                     {% endif %}
+                </div>
+            </div>
+            {% elif object.is_registration_due == True %}
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h5 class="text-danger font-weight-bold m-0">Pendaftaran</h5>
+                </div>
+                <div class="card-body">
+                    <p>Mohon maaf pendaftaran sudah ditutup pada {{object.due_registration|date:"d F Y"}}</p>
                 </div>
             </div>
             {% endif %}

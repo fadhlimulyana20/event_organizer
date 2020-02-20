@@ -8,7 +8,7 @@ from payment.models import Invoice
 from .form import UpdateTranferReceipt
 
 from django.views.generic import View
-from .utils import render_to_pdf
+# from .utils import render_to_pdf
 # from django.template.loader import get_template
 from django.template.loader import render_to_string
 
@@ -71,18 +71,19 @@ class GeneratePDF(View):
         # html = template.render(context)
         html = render_to_string("ticket.html", context)
         # pdf = render_to_pdf("ticket.html", context)
-        if event_participant[0].invoice :
-            if event_participant[0].invoice.pay_status :
-                filename = "Ticket_%s_%s.pdf" %(event_name, request.user.username)
-                content = "inline; filename='%s'" %(filename)
-                download = request.GET.get("download")
-                if download:
-                    content = "attachment; filename='%s'" %(filename)
-                font_config = FontConfiguration()
-                html_response = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(font_config=font_config, presentational_hints=True)
-                response = HttpResponse(html_response, content_type='application/pdf')
-                response['Content-Disposition'] = content
-                return response
+        if event_participant.count() > 0:
+            if event_participant[0].invoice :
+                if event_participant[0].invoice.pay_status :
+                    filename = "Ticket_%s_%s.pdf" %(event_name, request.user.username)
+                    content = "inline; filename='%s'" %(filename)
+                    download = request.GET.get("download")
+                    if download:
+                        content = "attachment; filename='%s'" %(filename)
+                    font_config = FontConfiguration()
+                    html_response = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf(font_config=font_config, presentational_hints=True)
+                    response = HttpResponse(html_response, content_type='application/pdf')
+                    response['Content-Disposition'] = content
+                    return response
         return HttpResponseRedirect(reverse('ticketing:event_detail_view', kwargs={'id': id}))
 
 

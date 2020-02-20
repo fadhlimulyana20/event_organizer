@@ -5,7 +5,7 @@ from datetime import date, datetime, timedelta
 from filemanager.models import Data
 from django.utils import timezone
 from payment.models import Invoice
-from .utils import path_and_rename
+# from .utils import path_and_rename
 import os
 
 # Create your models here.
