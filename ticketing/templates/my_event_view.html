@@ -23,7 +23,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                                {% for instance in event_participant %}  
+                                {% for instance in event_participant %}                                    
                                 <tr>
                                     <th scope="row">{{forloop.counter}}</th>
                                     <td>{{instance.event.name}}</td>
@@ -64,7 +64,7 @@
                                             <span>Lihat</span>
                                         </a>
                                     </td>
-                                </tr>
+                                </tr>   
                                 {% endfor %}
                             </tbody>
                         </table>

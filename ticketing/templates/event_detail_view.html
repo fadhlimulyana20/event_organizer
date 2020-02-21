@@ -20,6 +20,21 @@
                             </h6>
                         </li>
                         {% endif %}
+
+                        {% if event_participant|length > 0 and not event_participant.0.invoice.pay_status and object.is_registration_due == False %}
+                        <li class="list-group-item">  
+                            <h6 class="font-weight-bold m-0 text-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Anda telah mendaftarkan diri pada Event Ini</span> 
+                            </h6>
+                        </li>   
+                        <li class="list-group-item">  
+                            <h6 class="font-weight-bold m-0 text-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Segera Selesaikan Pembayaran {{event_participant.0.invoice}} </span> 
+                            </h6>
+                        </li>
+                        {% endif %}
                         
                         {% if object.is_registration_due %}
                         <li class="list-group-item">  

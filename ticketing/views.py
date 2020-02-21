@@ -38,6 +38,12 @@ def event_list_view(request, *args, **kwargs):
 
 def my_event_view(request, *args, **kwargs):
     event_participant = EventParticipant.objects.filter(user=request.user)
+
+    # for i in event_participant:
+    #     if i.invoice:
+    #         if i.invoice.is_invoice_due and i.invoice.pay_status == False:
+    #             i.delete()
+
     context = {
         'event_participant' : event_participant
     }
@@ -49,6 +55,13 @@ def event_detail_view(request, id):
     obj = get_object_or_404(Event, id=id)
     event_participant = EventParticipant.objects.filter(user=request.user, event=obj)
     event_lecture = EventParticipant.objects.filter(event=obj, role='2')
+
+    # if event_participant.count() > 0 :
+    #     if event_participant[0].invoice:
+    #         if event_participant[0].invoice.is_invoice_due and event_participant[0].invoice.pay_status == False:
+    #             event_participant[0].delete()
+    #             return HttpResponseRedirect(reverse('ticketing:my_event_view'))
+
     context = {
         'object' : obj,
         'event_participant' : event_participant,
@@ -93,7 +106,7 @@ def event_register_view(request, id):
     created = EventParticipant.objects.filter(user=request.user, event=event).exists()  
 
     if created:
-        return HttpResponseRedirect(reverse('ticketing:event_registered_view'))
+        return HttpResponseRedirect(reverse('ticketing:event_detail_view', kwargs={'id': id}))
     else:
         # create_payment = EventPayment.objects.create()
         create = EventParticipant.objects.create(user=request.user, event=event)
@@ -115,7 +128,7 @@ def event_register_view(request, id):
         create.barcode = os.path.join(file_path, file_name+".png")
         create.save()
     
-    return HttpResponseRedirect(reverse('ticketing:event_registered_view'))
+    return HttpResponseRedirect(reverse('ticketing:event_detail_view', kwargs={'id': id}))
 
 def event_registered_view(request, *args, **kwargs):
     return render(request, 'event_registered_view.html')
