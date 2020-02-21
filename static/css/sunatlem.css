@@ -187,6 +187,29 @@
     width: 100px;
 }
 
+/* icon-detail block */
+.icon-block{
+    display: inline-block;
+    font-size: 28px;
+}
+
+.detail-block{
+    display: inline-block;
+    font-size: 12px;
+}
+
+/* .home-button */
+.home-button{
+    width: 120px;
+    height: 100px;
+    color: #e06060;
+}
+
+.home-button:hover{
+    color: #b54c4c;
+}
+
+
 @media (min-width: 992px) {
 /* home cover */
     .home-cover{
@@ -248,5 +271,31 @@
         display: block;
     }
     
+    /* home-button-group */
+    .home-button{
+        width: 120px;
+        height: 100px;
+        color: #e06060;
+    }
+
+    .home-button:hover{
+        color: #b54c4c;
+    }
+
+    .home-button-value{
+        margin-top: 15px;
+    }
+
+    /* icon-detail block */
+    .icon-block{
+        display: block;
+        font-size: 42px;
+    }
+
+    .detail-block{
+        display: block;
+        font-size: 15px;
+    }
+
 }
 

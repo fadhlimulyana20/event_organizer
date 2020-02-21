@@ -23,7 +23,7 @@ def home_view(request):
     if  request.user.is_active:
         if request.user.is_authenticated:
             profile = Profile.objects.get(id=request.user.id)
-            event_active = EventParticipant.objects.filter(user=request.user)
+            event_active = EventParticipant.objects.filter(user=request.user, invoice__pay_status = True)
         else :
             profile = None
         context = {

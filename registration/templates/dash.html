@@ -1,6 +1,10 @@
 {% extends 'dashboard.html' %}
 
 
+{% block title %}
+    Dashboard
+{% endblock title %}
+    
 {% block content %}
 
 <div class="container-fluid">
@@ -12,45 +16,91 @@
     </div>
 
     <!-- Content Row -->
-
-    <!-- event active -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h5 class="h5 mb-0 text-gray-800">Event yang Diikuti</h5>    
-    </div>
-    <div class="card-columns">
-        
-        {% for instance in event_active %}
-            {% if instance.event.is_past_due %}
-            <div class="card border-left-danger shadow h-100 py-2">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h5 class="font-weight-bold text-danger">Menu</h5>
+                </div>
                 <div class="card-body">
-                    <a href="{{instance.event.get_absolute_url}}"><h5 class="h4 font-weight-bold text-danger text-uppercase mb-1">{{instance.event.name}}</h5></a>
-                    <p class="h5 mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.event.date}}</p>
-                    <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.event.time}}</p>
-                    <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.event.get_event_type_display}}</p>
-                    <p class="card-text mt-2 mb-0">Event Sudah terlewat</p>
-                    {% if instance.pay_status %}
-                        <p class="card-text text-success mt-2 mb-0">Terbayar</p>
-                    {% else %}
-                        <p class="card-text text-danger mt-2 mb-0">Belum Dibayar</p>
-                    {% endif %}   
+                    <div class="row">
+                        <!-- profile button -->
+                        <div class="col-3 d-flex justify-content-center mb-2">
+                            <a href="{% url 'registration:profile' %}" type="button" class="btn btn-link home-button">
+                                <div class="home-button-value">
+                                    <i class="icon-block fas fa-user"></i>
+                                    <span class="detail-block font-weight-bold">Profil</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- event button -->
+                        <div class="col-3 d-flex justify-content-center mb-2">
+                            <a href="{% url 'ticketing:my_event_view' %}" type="button" class="btn btn-link home-button">
+                                <div class="home-button-value">
+                                    <i class="icon-block fas fa-bell"></i>
+                                    <span class="detail-block font-weight-bold">Event Saya</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- event button -->
+                        <div class="col-3 d-flex justify-content-center mb-2">
+                            <a href="{% url 'payment:invoice_list_view' %}" type="button" class="btn btn-link home-button">
+                                <div class="home-button-value">
+                                    <i class="icon-block fas fa-receipt"></i>
+                                    <span class="detail-block font-weight-bold">Tagihan Saya</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- event button -->
+                        <div class="col-3 d-flex justify-content-center mb-2">
+                            <a href="" type="button" class="btn btn-link home-button">
+                                <div class="home-button-value">
+                                    <i class="icon-block fas fa-envelope"></i>
+                                    <span class="detail-block font-weight-bold">Pesan</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        
+                    </div>
                 </div>
             </div>
-            {% else %}
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <h5 class="h4 font-weight-bold text-primary text-uppercase mb-1">{{instance.event.name}}</h5>
-                    <p class="h5 mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.event.date}}</p>
-                    <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.event.time}}</p>
-                    <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.event.get_event_type_display}}</p>
-                    {% if instance.pay_status %}
-                        <p class="card-text text-success mt-2 mb-0">Terbayar</p>
-                    {% else %}
-                        <p class="card-text text-danger mt-2 mb-0">Belum Dibayar</p>
-                    {% endif %}   
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h5 class="font-weight-bold text-danger">Event Yang akan datang</h5>
                 </div>
-            </div>            
-            {% endif %}                
-        {% endfor %}
+                <div class="card-body">
+                    
+                    {% if event_active|length > 0 %}
+                    <div class="alert alert-success" role="alert">
+                        Klik untuk melihat detail event dan mencetak tiket
+                    </div>
+                    {% else %}
+                    <h6 class="h6 font-weight-bold text-secondary">Tidak ada event</h6>
+                    {% endif %}
+                        
+              
+                    {% for instance in event_active %}
+                    <a href="{{instance.event.get_absolute_url}}">
+                        <div class="card border-left-success">
+                            <div class="card-body">
+                                <a href="{{instance.event.get_absolute_url}}" class="h6 font-weight-bold text-success">{{instance.event.name}}</a>
+                                <p class="p mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.event.date}}</p>
+                                <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.event.time}}</p>
+                                <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.event.get_event_type_display}}</p> 
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                        
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
