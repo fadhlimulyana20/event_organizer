@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from datetime import date
 
-from .models import Event, EventParticipant, EventPayment
+from .models import Event, EventParticipant, EventPayment, PricePlan
 from payment.models import Invoice
 from .form import UpdateTranferReceipt
 
@@ -20,8 +20,10 @@ from barcode.writer import ImageWriter
 from barcode import generate 
 import os.path
 
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def event_list_view(request, *args, **kwargs):
     seminar_list = Event.objects.filter(due_registration__gt=date.today()).filter(event_type="SM")
     pelatihan_list = Event.objects.filter(due_registration__gt=date.today()).filter(event_type="PL")
@@ -36,6 +38,7 @@ def event_list_view(request, *args, **kwargs):
 
     return render(request, 'event_list_view.html', context)
 
+@login_required
 def my_event_view(request, *args, **kwargs):
     event_participant = EventParticipant.objects.filter(user=request.user)
 
@@ -50,10 +53,15 @@ def my_event_view(request, *args, **kwargs):
 
     return render(request, 'my_event_view.html', context)
 
-
+@login_required
 def event_detail_view(request, id):
     obj = get_object_or_404(Event, id=id)
     event_participant = EventParticipant.objects.filter(user=request.user, event=obj)
+
+    profession_code = request.user.profile.get_profession_code()
+    print('code : ', profession_code)
+    
+    price = PricePlan.objects.get(event_price_plan = obj, role= profession_code)
     event_lecture = EventParticipant.objects.filter(event=obj, role='2')
 
     # if event_participant.count() > 0 :
@@ -65,7 +73,8 @@ def event_detail_view(request, id):
     context = {
         'object' : obj,
         'event_participant' : event_participant,
-        'event_lecture' : event_lecture
+        'event_lecture' : event_lecture,
+        'price' : price
     }
 
     return render(request, 'event_detail_view.html', context)
@@ -100,12 +109,30 @@ class GeneratePDF(View):
         return HttpResponseRedirect(reverse('ticketing:event_detail_view', kwargs={'id': id}))
 
 
-
+@login_required
 def event_register_view(request, id):
     event = Event.objects.get(id=id) 
-    created = EventParticipant.objects.filter(user=request.user, event=event).exists()  
+    created = EventParticipant.objects.filter(user=request.user, event=event).exists()
+    event_participant = EventParticipant.objects.get(user=request.user, event=event)
+    invoice = Invoice.objects.get(eventparticipant = event_participant)
 
-    if created:
+    if invoice.is_invoice_due() :
+        event_participant.delete()
+        create = EventParticipant.objects.create(user=request.user, event=event)
+
+        # create barcode
+        barcode_type = barcode.get_barcode_class('code128')
+        barcode_file = barcode_type("%s_%s" %(event.event_type, create.id), writer=ImageWriter())
+
+        save_path = 'static/barcode/'
+        file_path = 'barcode/'
+        file_name = "barcode_%s_%s" %(event.event_type, create.id)
+        fullname = barcode_file.save(os.path.join(save_path, file_name))
+
+        create.barcode = os.path.join(file_path, file_name+".png")
+        create.save()
+
+    elif created and not invoice.is_invoice_due:
         return HttpResponseRedirect(reverse('ticketing:event_detail_view', kwargs={'id': id}))
     else:
         # create_payment = EventPayment.objects.create()
@@ -133,6 +160,7 @@ def event_register_view(request, id):
 def event_registered_view(request, *args, **kwargs):
     return render(request, 'event_registered_view.html')
 
+@login_required
 def payment_detail_view(request, id):
     # create_payment = Invoice.objects.create()
     event = Event.objects.get(id=id)

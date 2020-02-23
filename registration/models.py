@@ -28,6 +28,18 @@ class Profile(models.Model):
             Profile.objects.create(user=instance)
         instance.profile.save()
     
+    def get_profession_code(self):
+        if self.profession.lower() == 'dokter':
+            code_profession = 'DR'
+        elif self.profession.lower() == 'perawat':
+            code_profession = 'PR'
+        elif self.profession.lower() == 'bidan':
+            code_profession = 'BD'
+        else:
+            code_profession = 'OT'
+        
+        return code_profession
+    
 class Address(models.Model):
     name = models.CharField(default="untitled location", blank=False, null=False, max_length=120)
     street = models.CharField(default="untitled street", blank=False, null=False, max_length=300)

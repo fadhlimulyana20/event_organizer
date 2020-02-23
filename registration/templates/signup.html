@@ -20,7 +20,7 @@
                 <span class="login100-form-title">
                     Buat Akun Baru
                 </span>
-
+                <label for="id_username">Username</label>
                 <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
                     {{form.username}}
                     <!-- <input class="input100" type="text" name="email" placeholder="Email"> -->
@@ -30,6 +30,14 @@
                     </span>
                 </div>
 
+                {% if form.username.errors %}   
+                <div class="alert alert-danger">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+                    <p>{{form.username.errors}}</p>
+                </div>
+                {% endif %}
+
+                <label for="id_first_name">Nama Depan</label>
                 <div class="wrap-input100 validate-input" data-validate = "Password is required">
                     {{form.first_name}}
                     <!-- <input class="input100" type="password" name="pass" placeholder="Password"> -->
@@ -39,6 +47,7 @@
                     </span>
                 </div>
 
+                <label for="id_last_name">Nama Belakang</label>
                 <div class="wrap-input100 validate-input" data-validate = "Password is required">
                     {{form.last_name}}
                     <!-- <input class="input100" type="password" name="pass" placeholder="Password"> -->
@@ -47,7 +56,8 @@
                         <i class="fa fa-bold" aria-hidden="true"></i>
                     </span>
                 </div>
-
+                
+                <label for="id_email">Email</label>
                 <div class="wrap-input100 validate-input" data-validate = "Password is required">
                     {{form.email}}
                     <!-- <input class="input100" type="password" name="pass" placeholder="Password"> -->
@@ -64,6 +74,7 @@
                 </div>
                 {% endif %}
 
+                <label for="id_password1">Buat Password</label>
                 <div class="wrap-input100 validate-input" data-validate = "Password is required">
                     {{form.password1}}
                     <!-- <input class="input100" type="password" name="pass" placeholder="Password"> -->
@@ -72,7 +83,8 @@
                         <i class="fa fa-lock" aria-hidden="true"></i>
                     </span>
                 </div>
-            
+                
+                <label for="id_password2">Konfirmasi Password</label>
                 <div class="wrap-input100 validate-input" data-validate = "Password is required">
                     {{form.password2}}
                     <!-- <input class="input100" type="password" name="pass" placeholder="Password"> -->

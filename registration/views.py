@@ -9,26 +9,31 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib.auth.models import User
 from ticketing.models import Event, EventParticipant
+import datetime
 
 from .models import Profile
 
 # Create your views here.
+now = datetime.datetime.now()
 
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('registration:home'))
 
+
 def home_view(request):
     if  request.user.is_active:
         if request.user.is_authenticated:
             profile = Profile.objects.get(id=request.user.id)
             event_active = EventParticipant.objects.filter(user=request.user, invoice__pay_status = True)
+            event_not_payed = EventParticipant.objects.filter(user=request.user, invoice__pay_status = False, invoice__due_date__gt = now)
         else :
             profile = None
         context = {
             'profile' : profile,
-            'event_active' : event_active
+            'event_active' : event_active,
+            'event_not_payed' : event_not_payed
         }
         return render(request, 'dash.html', context)
     else :
@@ -46,7 +51,7 @@ def signup_view(request):
             # username = form.cleaned_data.get('username')
             new_user = authenticate(username=user.username, password=password)
             login(request, new_user)
-            return HttpResponseRedirect(reverse('registration:home'))
+            return HttpResponseRedirect(reverse('registration:create_profile'))
     else:
         form = SignUpForm()
     
@@ -67,6 +72,8 @@ def signin_view(request):
             if user:
                 if user.is_active:
                     login(request, user)
+                    if 'next' in request.POST:
+                        return HttpResponseRedirect(request.POST.get('next')    )
                     return HttpResponseRedirect(reverse('registration:home'))
                 else:
                     return HttpResponse("Your account is inactive")
@@ -82,6 +89,7 @@ def signin_view(request):
         }
         return render(request, 'signin.html', context)
 
+@login_required
 def edit_user_view(request):
     if request.user.is_authenticated:
         user = User.objects.get(id=request.user.id)
@@ -103,6 +111,7 @@ def edit_user_view(request):
     else:
         return HttpResponseRedirect(reverse('registration:home'))
 
+@login_required
 def edit_password_view(request):
     if request.user.is_authenticated:
         form = ChangeUserPassword(request.POST)
@@ -129,6 +138,7 @@ def edit_password_view(request):
     else:
         return HttpResponseRedirect(reverse('registration:home'))
 
+@login_required
 def edit_profile_view(request):
     if request.user.is_authenticated:
         user = User.objects.get(id=request.user.id)
@@ -153,6 +163,7 @@ def edit_profile_view(request):
     else:
         return HttpResponseRedirect(reverse('registration:home'))
 
+@login_required
 def profile_view(request):
     user = User.objects.get(id=request.user.id)
     profile = user.profile
@@ -163,5 +174,31 @@ def profile_view(request):
     }
 
     return render(request, 'profile_view.html', context)
+
+@login_required
+def create_profile(request):
+    if request.user.is_authenticated:
+        user = User.objects.get(id=request.user.id)
+        profile = user.profile
+        form = UpdateProfileForm(instance=profile)
+
+        if user.is_authenticated:
+            if request.method == 'POST':
+                form = UpdateProfileForm(request.POST, request.FILES, instance=profile)
+                if form.is_valid:
+                    update = form.save(commit = False)
+                    update.user = user
+                    update.save()
+                return HttpResponseRedirect(reverse('registration:home  '))
+        else:
+            form = UpdateProfileForm(instance=profile)
+        context ={
+            'form' :form,
+            'profile' :profile
+        }
+        return render(request, 'create_profile.html', context)
+    else:
+        return HttpResponseRedirect(reverse('registration:home'))
+
 
 

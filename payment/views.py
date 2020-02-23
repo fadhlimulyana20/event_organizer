@@ -3,7 +3,7 @@ from .models import Invoice, Account
 from django.contrib.auth.decorators import login_required
 from .form import UpdateTranferReceipt
 from django.views.generic import RedirectView
-from django.http import Http404
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 
 # Create your views here.
 @login_required
@@ -39,19 +39,22 @@ class PaymentMethodRedirect(RedirectView):
 
 def invoice_detail_view(request, id):
     invoice = Invoice.objects.filter(eventparticipant__user = request.user, number = id)
-    if not invoice[0].is_invoice_due():
-        if request.method == 'POST':
-            form = UpdateTranferReceipt(request.POST, request.FILES, instance=invoice[0])
-            if form.is_valid:
-                update = form.save(commit = False)
-                update.save()
-        else:
-            form = UpdateTranferReceipt(instance=invoice[0])
-        context = {
-            'form' : form,
-            'invoice' : invoice
-        }
+    if invoice[0].account != None:
+        if not invoice[0].is_invoice_due():
+            if request.method == 'POST':
+                form = UpdateTranferReceipt(request.POST, request.FILES, instance=invoice[0])
+                if form.is_valid:
+                    update = form.save(commit = False)
+                    update.save()
+            else:
+                form = UpdateTranferReceipt(instance=invoice[0])
+            context = {
+                'form' : form,
+                'invoice' : invoice
+            }
 
-        return render(request, 'invoice_detail_view.html', context)
-    else :
-        raise Http404("Invoice not Found")
+            return render(request, 'invoice_detail_view.html', context)
+        else :
+            raise Http404("Invoice not Found")
+    else:
+        return HttpResponseRedirect(invoice[0].eventparticipant.get_payment_method_url())

@@ -70,6 +70,7 @@
             </div>
         </div>
         <div class="col-lg-4">
+            <!-- event active -->
             <div class="card shadow mb-4">
                 <div class="card-header">
                     <h5 class="font-weight-bold text-danger">Event Yang akan datang</h5>
@@ -90,6 +91,38 @@
                         <div class="card border-left-success">
                             <div class="card-body">
                                 <a href="{{instance.event.get_absolute_url}}" class="h6 font-weight-bold text-success">{{instance.event.name}}</a>
+                                <p class="p mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.event.date}}</p>
+                                <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.event.time}}</p>
+                                <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.event.get_event_type_display}}</p> 
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                        
+                </div>
+            </div>
+
+            <!-- event not payed yet -->
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <h5 class="font-weight-bold text-danger">Event Yang Belum Dibayar</h5>
+                </div>
+                <div class="card-body">
+                    
+                    {% if event_not_payed|length > 0 %}
+                    <div class="alert alert-warning" role="alert">
+                        Klik untuk melihat detail event dan melakukan pembayaran
+                    </div>
+                    {% else %}
+                    <h6 class="h6 font-weight-bold text-secondary">Tidak ada event</h6>
+                    {% endif %}
+                        
+              
+                    {% for instance in event_not_payed %}
+                    <a href="{{instance.event.get_absolute_url}}">
+                        <div class="card border-left-warning">
+                            <div class="card-body">
+                                <a href="{{instance.event.get_absolute_url}}" class="h6 font-weight-bold text-warning">{{instance.event.name}}</a>
                                 <p class="p mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.event.date}}</p>
                                 <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.event.time}}</p>
                                 <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.event.get_event_type_display}}</p> 

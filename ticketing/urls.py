@@ -17,6 +17,6 @@ urlpatterns = [
     path('registered/', event_registered_view, name='event_registered_view'),
     path('register/<int:id>/', event_register_view, name='event_register_view'),
     path('my_event/', my_event_view, name='my_event_view'),
-    path('pembayaran/<int:id>/', payment_detail_view, name='payment_detail_view'),
+    path('payment/<int:id>/', payment_detail_view, name='payment_detail_view'),
     path('pdf/ticket=<int:id>/', GeneratePDF.as_view(), name='generate_pdf')
 ]

@@ -1,80 +1,65 @@
 {% extends 'dashboard.html' %}
+
+{% block title %}
+    Daftar Event Saya
+{% endblock title %}
+    
 {% load i18n %}
 {% block content %}
     <div class="container-fluid">
-        <div class="card shadow mb-4" id="collapseSeminar">
-            <div class="card-header">
-                <h5 class="text-primary font-weight-bold m-0">Event Saya</h5>
-            </div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush"> 
-                    <div class="table-responsive">
-                        {% if event_participant|length > 0 %}
-                        <table class="table table-hover">
-                            <thead class="thead">
-                              <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Event</th>
-                                <th scope="col">Tipe</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Lokasi</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Handle</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                {% for instance in event_participant %}                                    
-                                <tr>
-                                    <th scope="row">{{forloop.counter}}</th>
-                                    <td>{{instance.event.name}}</td>
-                                    <td>{{instance.event.get_event_type_display}}</td>
-                                    <td>
-                                        {% if instance.event.is_past_due %}
-                                        <span class="text-danger">
-                                            {% language 'id' %}
-                                            {{ instance.event.date|date:"d F Y" }}
-                                            {% endlanguage %}
-                                            
-                                        </span>
-                                        {% else %}
-                                        <span class="text-primary">
-                                            {% language 'id' %}
-                                            {{ instance.event.date|date:"d F Y" }}
-                                            {% endlanguage %}
-                                        </span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{instance.event.location.city}}</td>
-                                    <td class>  
-                                        {% if instance.invoice.pay_status %}
-                                        <p class="text-success text-justify">
-                                            <i class="fas fa-check-square"></i>
-                                            <span>Terbayar</span>
-                                        </p>
-                                        {% else %}
-                                        <p class="text-warning text-justify">
-                                            <i class="fas fa-money-bill"></i>
-                                            <span>Belum terbayar</span>
-                                        </p>
-                                        {% endif %}  
-                                    </td>
-                                    <td>
-                                        <a href="{{instance.event.get_absolute_url}}">
-                                            <i class="fas fa-search mr-1"></i>
-                                            <span>Lihat</span>
-                                        </a>
-                                    </td>
-                                </tr>   
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% else %}
-                            <h5>Anda belum terdaftar ke event apapun</h5>
-                        {% endif %}
-                    </div>
-                </ul>
-            </div>
+        <div class="d-flex justify-content-start mb-4">
+            <h3 class="font-weight-bold">Daftar Event Saya</h3>
         </div>
+        {% for instance in event_participant %}
+        
+            {% if instance.invoice.pay_status %}
+                <div class="card shadow mb-4 border-left-success">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <a href="{{instance.event.get_absolute_url}}" class="h4 font-weight-bold text-success">{{instance.event.name}}</a>
+                                <p class="p mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.event.date}}</p>
+                                <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.event.time}}</p>
+                                <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.event.get_event_type_display}}</p> 
+                                <p class="text-success text-justify">
+                                    <i class="fas fa-money-bill"></i>
+                                    <span>Lunas</span>
+                                </p>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{instance.event.get_ticket_url}}" class="btn btn-success">Cetak Tiket</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+            <div class="card shadow mb-4 border-left-warning">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <a href="{{instance.event.get_absolute_url}}" class="h4 font-weight-bold text-warning">{{instance.event.name}}</a>
+                            <p class="p mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.event.date}}</p>
+                            <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.event.time}}</p>
+                            <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.event.get_event_type_display}}</p> 
+                            <p class="text-warning text-justify">
+                                <i class="fas fa-money-bill"></i>
+                                <span>Belum Dibayar</span>
+                            </p>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="d-flex justify-content-end">
+                                <a href="{{instance.invoice.get_payment_url}}" class="btn btn-warning">Bayar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+
+        {% endfor %}
     </div>
 {% endblock content %}
 

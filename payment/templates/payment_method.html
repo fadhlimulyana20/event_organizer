@@ -63,4 +63,16 @@
 </div>
     
 {% endblock content %}
+
+
+{% block jquery %}
+    <script>
+        $(document).ready(function(){
+            $('#invoice').addClass('active');
+            $('#invoice_mobile').addClass('active');
+            $('#my_invoice').addClass('active');
+        });
+    </script>
+{% endblock jquery %}
+    
     

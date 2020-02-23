@@ -1,16 +1,16 @@
-{% extends 'dashboard.html' %}
+{% extends 'non-dashboard-base.html' %}
 
 
 {% block title %}
-    Edit Profil
+    Buat Profil Anda
 {% endblock title %}
     
 {% block content %}   
-<div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <h2>Edit Profil</h2>
-            <form action="" method="POST" enctype='multipart/form-data'>
+<div class="container">
+    <div class="shadow mt-5 mb-5 bg-white create-profile">
+        <div class=""">
+            <h2 class="font-weight-bold title">Lengkapi Profil Anda Untuk Membuat Akun</h2>
+            <form action="" method="POST" enctype='multipart/form-data' class="mb-4">
                 {% csrf_token %}
                 <div class="form-group row">
                     <label for="{{form.image_profile.id}}" class="col-sm-2 col-form-label">{{form.image_profile.label}}</label>

@@ -49,6 +49,26 @@ class SignUpForm(UserCreationForm):
 
     #     # A user was found with this as a username, raise an error.
     #     raise forms.ValidationError('This email address is already in use.')
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        username_qs = User.objects.filter(username=username)
+
+        def is_space(string):
+            if ' ' in string:
+                return True
+            return False
+
+        if username_qs.exists():
+            raise forms.ValidationError("Username sudah ada dan sudah dipakai orang lain")
+            print("This Email is Already Used")
+        elif not username.islower() and not is_space(username):
+            raise forms.ValidationError("Username hanya boleh berisi huruf kecil dan angka.")
+        elif is_space(username) and not username.islower():
+            raise forms.ValidationError("Username tidak boleh mengandung spasi dan hanya boleh berisi huruf kecil dan angka.")
+        elif is_space(username):
+            raise forms.ValidationError("Username tidak boleh mengandung spasi dan hanya boleh berisi huruf kecil dan angka.")
+
+        return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -114,12 +134,12 @@ class ChangeUserPassword(forms.Form):
 #     input_type = 'date' 
 
 class UpdateProfileForm(forms.ModelForm):
-    bio = forms.CharField(max_length=500 , widget=forms.Textarea, required=False)
+    bio = forms.CharField(max_length=500 , widget=forms.Textarea, label="Tentang Anda", required=False)
     profession = forms.CharField(max_length=100, label="Profesi", required=False)
     institute = forms.CharField(max_length=100, label="Instansi", required=False)
     birth_date = forms.DateField(label="Tanggal Lahir", required=False)
     phone_number = forms.CharField(max_length=20, label="Nomor Telepon", required=False)
-    image_profile = forms.ImageField(required=False, label="Foto Profil")
+    image_profile = forms.ImageField(required=False, label="Foto Profil", widget=forms.FileInput)
 
     class Meta:
         model = Profile

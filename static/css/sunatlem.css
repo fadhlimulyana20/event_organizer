@@ -75,12 +75,14 @@
 
 /* sign-up panel */
 .signup-panel{
-    margin-top: 70px;
+    margin-top: 2em;
     padding: 50px 20px 50px 20px;
     border-radius: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     width: 960px;
     border-top: 40px;
+    margin-bottom: 1em;
+    /* margin-bottom: 70px; */
 }
 
 /* reset */
@@ -210,6 +212,18 @@
 }
 
 
+/* create-profile */
+.create-profile{
+    padding: 40px 20px 40px 20px;
+    border-radius: 30px;
+}
+
+.create-profile .title{
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+
 @media (min-width: 992px) {
 /* home cover */
     .home-cover{
@@ -295,6 +309,11 @@
     .detail-block{
         display: block;
         font-size: 15px;
+    }
+
+    /* create-profile */
+    .create-profile{
+        padding: 75px 50px 75px 50px;
     }
 
 }
