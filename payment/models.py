@@ -27,6 +27,7 @@ class Invoice(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, blank=True, null=True)
     pay_status = models.BooleanField(blank=False, null=False, default=False)
     image_receipt = models.ImageField(upload_to='images/transfer_receipt/', blank=True, null=True)
+    price = models.DecimalField(decimal_places=0, max_digits=20, default=0)
 
     def is_invoice_due(self):
         return timezone.now() >= self.due_date

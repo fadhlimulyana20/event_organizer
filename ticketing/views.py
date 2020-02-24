@@ -113,11 +113,11 @@ class GeneratePDF(View):
 def event_register_view(request, id):
     event = Event.objects.get(id=id) 
     created = EventParticipant.objects.filter(user=request.user, event=event).exists()
-    event_participant = EventParticipant.objects.get(user=request.user, event=event)
-    invoice = Invoice.objects.get(eventparticipant = event_participant)
+    event_participant = EventParticipant.objects.filter(user=request.user, event=event)
+    invoice = Invoice.objects.filter(eventparticipant = event_participant[0])
 
-    if invoice.is_invoice_due() :
-        event_participant.delete()
+    if invoice[0].is_invoice_due() :
+        event_participant[0].delete()
         create = EventParticipant.objects.create(user=request.user, event=event)
 
         # create barcode
@@ -168,10 +168,17 @@ def payment_detail_view(request, id):
     print(all_fields)
     participant = EventParticipant.objects.get(user=request.user, event=event)
     print(participant)
+
+    profession_code = request.user.profile.get_profession_code()
+    print('code : ', profession_code)
+    
+    price = PricePlan.objects.get(event_price_plan = event , role= profession_code)
+    get_price = price.price
+
     if participant.invoice:
         return HttpResponseRedirect(participant.get_payment_method_url())
     else:
-        create_payment = Invoice.objects.create()
+        create_payment = Invoice.objects.create(price = get_price)
         participant.invoice = create_payment
         participant.save()
 

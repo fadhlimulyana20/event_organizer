@@ -29,12 +29,13 @@ class Profile(models.Model):
         instance.profile.save()
     
     def get_profession_code(self):
-        if self.profession.lower() == 'dokter':
-            code_profession = 'DR'
-        elif self.profession.lower() == 'perawat':
-            code_profession = 'PR'
-        elif self.profession.lower() == 'bidan':
-            code_profession = 'BD'
+        if self.profession :
+            if self.profession.lower() == 'dokter':
+                code_profession = 'DR'
+            elif self.profession.lower() == 'perawat':
+                code_profession = 'PR'
+            elif self.profession.lower() == 'bidan':
+                code_profession = 'BD'
         else:
             code_profession = 'OT'
         

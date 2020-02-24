@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Invoice, Account
+from ticketing.models import PricePlan
 from django.contrib.auth.decorators import login_required
 from .form import UpdateTranferReceipt
 from django.views.generic import RedirectView
@@ -39,6 +40,8 @@ class PaymentMethodRedirect(RedirectView):
 
 def invoice_detail_view(request, id):
     invoice = Invoice.objects.filter(eventparticipant__user = request.user, number = id)
+    event = invoice[0].eventparticipant.event
+
     if invoice[0].account != None:
         if not invoice[0].is_invoice_due():
             if request.method == 'POST':
@@ -50,7 +53,7 @@ def invoice_detail_view(request, id):
                 form = UpdateTranferReceipt(instance=invoice[0])
             context = {
                 'form' : form,
-                'invoice' : invoice
+                'invoice' : invoice,
             }
 
             return render(request, 'invoice_detail_view.html', context)

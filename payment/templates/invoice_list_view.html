@@ -46,13 +46,7 @@
                     </div>
                     <div class="p-2 bd-highlight border-left">
                         <p class="mb-0">Total</p>
-                        {% for instance in instance.eventparticipant.event.price_plan.all %}
-                                    
-                            {% if request.user.profile.profession.lower == instance.get_role_display.lower %}
-                            <p class="text-danger">Rp. {{instance.price|intcomma}}</p>
-                            {% endif %}
-                            
-                        {% endfor %}
+                        <p class="text-danger">Rp. {{instance.price|intcomma}}</p>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-2 mb-2">

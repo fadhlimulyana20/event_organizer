@@ -41,13 +41,7 @@
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-6 col-lg-4">Harga :</div>
-                        {% for instance in invoice.0.eventparticipant.event.price_plan.all %}
-                                    
-                        {% if request.user.profile.profession.lower == instance.get_role_display.lower %}
-                        <div class="col-lg-8">Rp. {{instance.price|intcomma}}</div>
-                        {% endif %}
-                        
-                        {% endfor %}
+                        <div class="col-lg-8">Rp. {{invoice.0.price|intcomma}}</div>
                         
                     </div>
                 </li>

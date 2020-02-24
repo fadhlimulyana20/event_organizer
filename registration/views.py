@@ -189,7 +189,7 @@ def create_profile(request):
                     update = form.save(commit = False)
                     update.user = user
                     update.save()
-                return HttpResponseRedirect(reverse('registration:home  '))
+                return HttpResponseRedirect(reverse('registration:home'))
         else:
             form = UpdateProfileForm(instance=profile)
         context ={
