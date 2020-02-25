@@ -1,0 +1,22 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: fadhlimulyana20@gmail.com
+Date: Mon, 24 Feb 2020 07:11:52 -0000
+Message-ID: <158252831215.10064.14569799982241050486@fmcomp>
+
+
+To initiate the password reset process for your fi TestSite Account,
+click the link below:
+
+http://127.0.0.1:8000/reset_password/confirm/MTU%5B0-9A-Za-z%5D+)-5e9-f5bbd380552bd163929e/
+
+If clicking the link above doesn't work, please copy and paste the URL in a new browser
+window instead.
+
+Sincerely,
+The TestSite Team
+
+-------------------------------------------------------------------------------

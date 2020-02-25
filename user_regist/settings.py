@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
 
 #login url for login required decorator
 LOGIN_URL = reverse_lazy('registration:sign_in')
@@ -144,11 +145,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 #email SMTP server configuration
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
-EMAIL_HOST = 'smtp.gmail.com' 
-EMAIL_HOST_USER = 'fadhlimulyana20@gmail.com' #Your email id
-EMAIL_HOST_PASSWORD = '@sapisapi123' # your password
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+EMAIL_HOST = 'smtp.hostinger.co.id' 
+EMAIL_HOST_USER = 'app@sunatlemindonesia.com'
+EMAIL_HOST_PASSWORD = 'dee68ae81066062481bdc4b878e498ec'
+DEFAULT_FROM_EMAIL = 'app@sunatlemindonesia.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
