@@ -14,7 +14,7 @@
     </div>
 
     <!-- alert section -->
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" id="how_to">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -119,187 +119,235 @@
             </div>
         </div>
     </div>
+
     <!-- seminar list section -->
-    <div class="card shadow mb-4 collapse" id="collapseSeminar">
-        <div class="card-header">
-            <h5 class="text-primary font-weight-bold m-0">Daftar Seminar</h5>
+    <div id="collapseSeminar" class="collapse">
+        <!-- alert section -->
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="alert-heading">Petunjuk</h4>
+            <p>Geser dan klik icon kaca pembesar untuk melihat detail event</p>
         </div>
-        <div class="card-body">
-            <ul class="list-group list-group-flush"> 
-                <div class="table-responsive">
-                    {% if seminar_list|length > 0 %}
-                    <table class="table table-hover">
-                        <thead class="thead">
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Event</th>
-                            <th scope="col">Tipe</th>
-                            <th scope="col">Tanggal</th>
-                            <th scope="col">Lokasi</th>
-                            <th scope="col">Handle</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            {% for instance in seminar_list %}  
-                            <tr>
-                                <th scope="row">{{forloop.counter}}</th>
-                                <td>{{instance.name}}</td>
-                                <td>{{instance.get_event_type_display}}</td>
-                                <td>{{instance.date}}</td>
-                                <td>{{instance.location.city}}</td>
-                                <td>
-                                    <a href="{{instance.get_absolute_url}}">
-                                        <i class="fas fa-search mr-1"></i>
-                                        <span>Lihat</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}
-                        <h5>Belum ada event tersedia yang akan datang</h5>
-                    {% endif %}
-                </div>
-            </ul>
+
+        <div class="card shadow mb-4" id="">
+            <div class="card-header">
+                <h5 class="text-primary font-weight-bold m-0">Daftar Seminar</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush"> 
+                    <div class="table-responsive">
+                        {% if seminar_list|length > 0 %}
+                        <table class="table table-hover">
+                            <thead class="thead">
+                              <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Event</th>
+                                <th scope="col">Tipe</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Handle</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for instance in seminar_list %}  
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{instance.name}}</td>
+                                    <td>{{instance.get_event_type_display}}</td>
+                                    <td>{{instance.date}}</td>
+                                    <td>{{instance.location.city}}</td>
+                                    <td>
+                                        <a href="{{instance.get_absolute_url}}">
+                                            <i class="fas fa-search mr-1"></i>
+                                            <span>Lihat</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                            <h5>Belum ada event tersedia yang akan datang</h5>
+                        {% endif %}
+                    </div>
+                </ul>
+            </div>
         </div>
     </div>
 
     <!-- workshop list section -->
-    <div class="card shadow mb-4 collapse" id="collapseWorkshop">
-        <div class="card-header">
-            <h5 class="text-success font-weight-bold m-0">Daftar Workshop</h5>
+    <div id="collapseWorkshop" class="collapse">
+        <!-- alert section -->
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="alert-heading">Petunjuk</h4>
+            <p>Geser dan klik icon kaca pembesar untuk melihat detail event</p>
         </div>
-        <div class="card-body">
-            <ul class="list-group list-group-flush"> 
-                <div class="table-responsive">
-                    {% if workshop_list|length > 0 %}
-                    <table class="table table-hover">
-                        <thead class="thead">
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Event</th>
-                            <th scope="col">Tipe</th>
-                            <th scope="col">Tanggal</th>
-                            <th scope="col">Lokasi</th>
-                            <th scope="col">Handle</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            {% for instance in workshop_list %}  
-                            <tr>
-                                <th scope="row">{{forloop.counter}}</th>
-                                <td>{{instance.name}}</td>
-                                <td>{{instance.get_event_type_display}}</td>
-                                <td>{{instance.date}}</td>
-                                <td>{{instance.location.city}}</td>
-                                <td>
-                                    <a href="{{instance.get_absolute_url}}">
-                                        <i class="fas fa-search mr-1"></i>
-                                        <span>Lihat</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}
-                        <h5>Belum ada event tersedia yang akan datang</h5>
-                    {% endif %}
-                </div>
-            </ul>
+
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h5 class="text-success font-weight-bold m-0">Daftar Workshop</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush"> 
+                    <div class="table-responsive">
+                        {% if workshop_list|length > 0 %}
+                        <table class="table table-hover">
+                            <thead class="thead">
+                              <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Event</th>
+                                <th scope="col">Tipe</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Handle</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for instance in workshop_list %}  
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{instance.name}}</td>
+                                    <td>{{instance.get_event_type_display}}</td>
+                                    <td>{{instance.date}}</td>
+                                    <td>{{instance.location.city}}</td>
+                                    <td>
+                                        <a href="{{instance.get_absolute_url}}">
+                                            <i class="fas fa-search mr-1"></i>
+                                            <span>Lihat</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                            <h5>Belum ada event tersedia yang akan datang</h5>
+                        {% endif %}
+                    </div>
+                </ul>
+            </div>
         </div>
     </div>
 
     <!-- pelatihan list section -->
-    <div class="card shadow mb-4 collapse" id="collapsePelatihan">
-        <div class="card-header">
-            <h5 class="text-danger font-weight-bold m-0">Daftar Pelatihan</h5>
+    <div id="collapsePelatihan" class="collapse">
+
+        <!-- alert section -->
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="alert-heading">Petunjuk</h4>
+            <p>Geser dan klik icon kaca pembesar untuk melihat detail event</p>
         </div>
-        <div class="card-body">
-            <ul class="list-group list-group-flush"> 
-                <div class="table-responsive">
-                    {% if pelatihan_list|length > 0 %}
-                    <table class="table table-hover">
-                        <thead class="thead">
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Event</th>
-                            <th scope="col">Tipe</th>
-                            <th scope="col">Tanggal</th>
-                            <th scope="col">Lokasi</th>
-                            <th scope="col">Handle</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            {% for instance in pelatihan_list %}  
-                            <tr>
-                                <th scope="row">{{forloop.counter}}</th>
-                                <td>{{instance.name}}</td>
-                                <td>{{instance.get_event_type_display}}</td>
-                                <td>{{instance.date}}</td>
-                                <td>{{instance.location.city}}</td>
-                                <td>
-                                    <a href="{{instance.get_absolute_url}}">
-                                        <i class="fas fa-search mr-1"></i>
-                                        <span>Lihat</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}
-                        <h5>Belum ada event tersedia yang akan datang</h5>
-                    {% endif %}
-                </div>
-            </ul>
+
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h5 class="text-danger font-weight-bold m-0">Daftar Pelatihan</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush"> 
+                    <div class="table-responsive">
+                        {% if pelatihan_list|length > 0 %}
+                        <table class="table table-hover">
+                            <thead class="thead">
+                              <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Event</th>
+                                <th scope="col">Tipe</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Handle</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for instance in pelatihan_list %}  
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{instance.name}}</td>
+                                    <td>{{instance.get_event_type_display}}</td>
+                                    <td>{{instance.date}}</td>
+                                    <td>{{instance.location.city}}</td>
+                                    <td>
+                                        <a href="{{instance.get_absolute_url}}">
+                                            <i class="fas fa-search mr-1"></i>
+                                            <span>Lihat</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                            <h5>Belum ada event tersedia yang akan datang</h5>
+                        {% endif %}
+                    </div>
+                </ul>
+            </div>
         </div>
     </div>
 
     <!-- seminar workshop list section -->
-    <div class="card shadow mb-4 collapse" id="collapseSeminarWorkshop">
-        <div class="card-header">
-            <h5 class="text-warning font-weight-bold m-0">Daftar Seminar dan Workshop</h5>
+
+    <div id="collapseSeminarWorkshop" class="collapse"> 
+
+        <!-- alert section -->
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="alert-heading">Petunjuk</h4>
+            <p>Geser dan klik icon kaca pembesar untuk melihat detail event</p>
         </div>
-        <div class="card-body">
-            <ul class="list-group list-group-flush"> 
-                <div class="table-responsive">
-                    {% if seminar_workshop_list|length > 0 %}
-                    <table class="table table-hover">
-                        <thead class="thead">
-                          <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Event</th>
-                            <th scope="col">Tipe</th>
-                            <th scope="col">Tanggal</th>
-                            <th scope="col">Lokasi</th>
-                            <th scope="col">Handle</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            {% for instance in seminar_workshop_list %}  
-                            <tr>
-                                <th scope="row">{{forloop.counter}}</th>
-                                <td>{{instance.name}}</td>
-                                <td>{{instance.get_event_type_display}}</td>
-                                <td>{{instance.date}}</td>
-                                <td>{{instance.location.city}}</td>
-                                <td>
-                                    <a href="{{instance.get_absolute_url}}">
-                                        <i class="fas fa-search mr-1"></i>
-                                        <span>Lihat</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}
-                        <h5>Belum ada event tersedia yang akan datang</h5>
-                    {% endif %}
-                </div>
-            </ul>
+
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h5 class="text-warning font-weight-bold m-0">Daftar Seminar dan Workshop</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush"> 
+                    <div class="table-responsive">
+                        {% if seminar_workshop_list|length > 0 %}
+                        <table class="table table-hover">
+                            <thead class="thead">
+                              <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Event</th>
+                                <th scope="col">Tipe</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Lokasi</th>
+                                <th scope="col">Handle</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for instance in seminar_workshop_list %}  
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{instance.name}}</td>
+                                    <td>{{instance.get_event_type_display}}</td>
+                                    <td>{{instance.date}}</td>
+                                    <td>{{instance.location.city}}</td>
+                                    <td>
+                                        <a href="{{instance.get_absolute_url}}">
+                                            <i class="fas fa-search mr-1"></i>
+                                            <span>Lihat</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                            <h5>Belum ada event tersedia yang akan datang</h5>
+                        {% endif %}
+                    </div>
+                </ul>
+            </div>
         </div>
     </div>
 
