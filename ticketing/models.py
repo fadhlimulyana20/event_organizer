@@ -42,6 +42,8 @@ class Event(models.Model):
     price_plan = models.ManyToManyField('PricePlan', related_name='event_price_plan')
     data = models.ManyToManyField(Data, through="DataEvent", related_name="data_event")
     document = models.ManyToManyField('Document', related_name='event_document')
+    poster = models.ImageField(upload_to='static/event_poster/', blank=True, null=True)
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

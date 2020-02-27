@@ -26,12 +26,14 @@ def home_view(request):
     if  request.user.is_active:
         if request.user.is_authenticated:
             profile = Profile.objects.get(id=request.user.id)
+            event = Event.objects.filter(featured=True, due_registration__gt=now)
             event_active = EventParticipant.objects.filter(user=request.user, invoice__pay_status = True)
             event_not_payed = EventParticipant.objects.filter(user=request.user, invoice__pay_status = False, invoice__due_date__gt = now)
         else :
             profile = None
         context = {
             'profile' : profile,
+            'event' : event,
             'event_active' : event_active,
             'event_not_payed' : event_not_payed
         }
