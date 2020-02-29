@@ -151,13 +151,15 @@
                 <div class="card-body">    
                     {% for instance in event_lecture %}   
                         <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between">
-                                <div class="my-auto">
-                                    <img src="{{instance.user.profile.image_profile.url}}" alt="" class="img-fluid lecture-img rounded">
-                                </div>
-                                <div class="my-auto ml-4" style="text-align: right;">
-                                    <h6 class="font-weight-bold">{{instance.user.first_name}} {{instance.user.last_name}}</h6>
-                                    <h6>{{instance.user.profile.bio}}</h6>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="row">
+                                    <div class="my-auto col-4">
+                                        <img src="{{instance.user.profile.image_profile.url}}" alt="" class="img-fluid lecture-img rounded">
+                                    </div>
+                                    <div class="my-auto col-8" style="text-align: right;">
+                                        <h6 class="font-weight-bold">{{instance.user.first_name}} {{instance.user.last_name}}</h6>
+                                        <h6>{{instance.user.profile.bio}}</h6>
+                                    </div>
                                 </div>
                             </a>
                         </div>    
