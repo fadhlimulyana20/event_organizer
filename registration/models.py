@@ -34,6 +34,8 @@ class Profile(models.Model):
                 code_profession = 'DR'
             elif 'perawat' in self.profession.lower():
                 code_profession = 'PR'
+            elif 'penata' in self.profession.lower():
+                code_profession = 'PR'
             elif 'bidan' in self.profession.lower():
                 code_profession = 'BD'
             else:
