@@ -103,6 +103,7 @@ class EventPayment(models.Model):
 
 class Document(models.Model):
     name = models.CharField(default="untitled document", blank=False, null=False, max_length=150)
+    value = models.DecimalField(decimal_places=0, default=0, max_digits=3)
     date_of_release = models.DateField(null=True, blank=True)
     file = models.FileField(upload_to='media/document/pdf/', blank=True, null=True)
 
