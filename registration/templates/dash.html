@@ -75,25 +75,27 @@
                     <h5 class="font-weight-bold text-danger">Event Terbaru</h5>
                 </div>
                 <div class="card-body">
-                    <div class="card-deck">
+                    <div class="row row-cols-1 row-cols-md-3">
                         
                         {% for instance in event %}
-                            <div class="card">
-                                <div class="crop">
-                                    <img src="{{instance.poster.url}}" class="card-img-top" alt="{instance.poster.name}}">
-                                </div>
-                                <div class="card-body">
-                                    <a href="{{instance.event.get_absolute_url}}" class="h5 font-weight-bold text-primary">{{instance.name}}</a>
-                                    <p class="p mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.date}}</p>
-                                    <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.time}} WIB</p>
-                                    <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.get_event_type_display}}</p> 
-                                    <div class="d-flex justify-content-end">
-                                        <a href="{{instance.get_absolute_url}}" role="button" class="btn btn-primary font-weight-bold btn-icon-split mb-2">
-                                            <span class="icon text-white">
-                                                <i class="fas fa-search"></i>
-                                            </span>
-                                            <span class="text">Lihat</span>
-                                        </a>
+                            <div class="col-lg-4 mb-4">
+                                <div class="card h-100">
+                                    <div class="crop">
+                                        <img src="{{instance.poster.url}}" class="card-img-top" alt="{instance.poster.name}}">
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="{{instance.event.get_absolute_url}}" class="h5 font-weight-bold text-primary">{{instance.name}}</a>
+                                        <p class="p mb-0 font-weight-bold text-gray-800"><i class="far fa-calendar-alt"></i> {{instance.date}}</p>
+                                        <p class="card-text mb-0"><i class="far fa-clock"></i> {{instance.time}} WIB</p>
+                                        <p class="card-text mb-0"></i><i class="fas fa-chalkboard-teacher"></i> {{instance.get_event_type_display}}</p> 
+                                        <div class="d-flex justify-content-end mt-2">
+                                            <a href="{{instance.get_absolute_url}}" role="button" class="btn-sm btn-primary font-weight-bold btn-icon-split mb-2">
+                                                <span class="icon text-white">
+                                                    <i class="fas fa-search"></i>
+                                                </span>
+                                                <span class="text">Lihat</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

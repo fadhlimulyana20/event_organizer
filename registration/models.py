@@ -30,12 +30,14 @@ class Profile(models.Model):
     
     def get_profession_code(self):
         if self.profession :
-            if self.profession.lower() == 'dokter':
+            if 'dokter' in self.profession.lower():
                 code_profession = 'DR'
-            elif self.profession.lower() == 'perawat':
+            elif 'perawat' in self.profession.lower():
                 code_profession = 'PR'
-            elif self.profession.lower() == 'bidan':
+            elif 'bidan' in self.profession.lower():
                 code_profession = 'BD'
+            else:
+                code_profession = 'OT'
         else:
             code_profession = 'OT'
         

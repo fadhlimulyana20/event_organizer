@@ -11,6 +11,11 @@ from django.contrib.auth.models import User
 from ticketing.models import Event, EventParticipant
 import datetime
 
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django.conf.urls.static import static
+
 from .models import Profile
 
 # Create your views here.
@@ -191,6 +196,16 @@ def create_profile(request):
                     update = form.save(commit = False)
                     update.user = user
                     update.save()
+                    mail_subject = 'Selamat Datang di Aplikasi SunatLem'
+                    message = render_to_string('greeting_email.html', {
+                        'logo' : 'http://app.sunatlemindonesia.com/static/img/sunatlem-banner.png',
+                    })
+                    to_email = request.user.email
+                    email = EmailMessage(
+                        mail_subject, message, to=[to_email]
+                    )
+                    email.content_subtype = "html"
+                    email.send()
                 return HttpResponseRedirect(reverse('registration:home'))
         else:
             form = UpdateProfileForm(instance=profile)

@@ -138,7 +138,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',
-    '/var/www/django-apps/env/lib/python3.6/site-packages/django/contrib/admin/static/admin',
+    '/var/www/django-apps/env/lib/python3.6/site-packages/django/contrib/admin/static/',
 ]
 
 
@@ -149,10 +149,10 @@ MEDIA_URL = '/media/'
 #email SMTP server configuration
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
-EMAIL_HOST = 'smtp.hostinger.co.id' 
-EMAIL_HOST_USER = 'app@sunatlemindonesia.com'
-EMAIL_HOST_PASSWORD = 'dee68ae81066062481bdc4b878e498ec'
-DEFAULT_FROM_EMAIL = 'app@sunatlemindonesia.com'
+EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_HOST_USER = 'appsunatlem@gmail.com'
+EMAIL_HOST_PASSWORD = 'wlaiqyudzsgmsbck'
+DEFAULT_FROM_EMAIL = 'appsunatlem@gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
