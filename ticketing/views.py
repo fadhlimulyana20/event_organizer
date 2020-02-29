@@ -114,26 +114,27 @@ def event_register_view(request, id):
     event = Event.objects.get(id=id) 
     created = EventParticipant.objects.filter(user=request.user, event=event).exists()
     event_participant = EventParticipant.objects.filter(user=request.user, event=event)
-    invoice = Invoice.objects.filter(eventparticipant = event_participant[0])
+    invoice = Invoice.objects.filter(eventparticipant = event_participant.first())
 
-    if invoice[0].is_invoice_due() :
-        event_participant[0].delete()
-        create = EventParticipant.objects.create(user=request.user, event=event)
+    if invoice.exists and created:
+        if invoice.first().is_invoice_due:
+            event_participant.first().delete()
+            create = EventParticipant.objects.create(user=request.user, event=event)
 
-        # create barcode
-        barcode_type = barcode.get_barcode_class('code128')
-        barcode_file = barcode_type("%s_%s" %(event.event_type, create.id), writer=ImageWriter())
+            # create barcode
+            barcode_type = barcode.get_barcode_class('code128')
+            barcode_file = barcode_type("%s_%s" %(event.event_type, create.id), writer=ImageWriter())
 
-        save_path = 'static/barcode/'
-        file_path = 'barcode/'
-        file_name = "barcode_%s_%s" %(event.event_type, create.id)
-        fullname = barcode_file.save(os.path.join(save_path, file_name))
+            save_path = 'static/barcode/'
+            file_path = 'barcode/'
+            file_name = "barcode_%s_%s" %(event.event_type, create.id)
+            fullname = barcode_file.save(os.path.join(save_path, file_name))
 
-        create.barcode = os.path.join(file_path, file_name+".png")
-        create.save()
+            create.barcode = os.path.join(file_path, file_name+".png")
+            create.save()
 
-    elif created and not invoice.is_invoice_due:
-        return HttpResponseRedirect(reverse('ticketing:event_detail_view', kwargs={'id': id}))
+        elif not invoice.first().is_invoice_due:
+            return HttpResponseRedirect(reverse('ticketing:event_detail_view', kwargs={'id': id}))
     else:
         # create_payment = EventPayment.objects.create()
         create = EventParticipant.objects.create(user=request.user, event=event)
