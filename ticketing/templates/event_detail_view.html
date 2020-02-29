@@ -300,9 +300,12 @@
                                         <h6 class="font-weight-bold">{{instance.name}}</h6>
                                     </div>
                                     <div class="my-auto">
-                                        <a class="btn btn-link font-weight-bold" data-toggle="collapse" href="#collapse_{{instance.id}}" role="button" aria-expanded="false" aria-controls="{{instance.id}}">
-                                            <span>Detail</span>
-                                        </a>
+                                        <div class="d-flex justify-content-end">
+                                            <h6 class="font-weight-bold my-auto text-danger">{{instance.value}}</h6>
+                                            <a class="btn btn-link font-weight-bold my-auto" data-toggle="collapse" href="#collapse_{{instance.id}}" role="button" aria-expanded="false" aria-controls="{{instance.id}}">
+                                                <span>Detail</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="collapse" id="collapse_{{instance.id}}">
@@ -314,6 +317,10 @@
                                                 <i class="far fa-file-alt mr-2"></i>
                                                 <span>{{instance.filename}}</span> 
                                             </a>
+                                        </h6>
+                                        {% else %}
+                                        <h6 class="font-weight-bold m-0 text-danger">
+                                            Dalam Progress
                                         </h6>
                                         {% endif %}
                                             
