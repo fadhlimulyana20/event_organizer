@@ -128,7 +128,11 @@ def event_register_view(request, id):
             save_path = 'static/barcode/'
             file_path = 'barcode/'
             file_name = "barcode_%s_%s" %(event.event_type, create.id)
-            fullname = barcode_file.save(os.path.join(save_path, file_name))
+            # fullname = barcode_file.save(os.path.join(save_path, file_name))
+
+            
+            f = open(os.path.join(save_path, file_name)+'.png', 'wb')
+            barcode_file.write(f) # Pillow (ImageWriter) produces RAW format here
 
             create.barcode = os.path.join(file_path, file_name+".png")
             create.save()
@@ -146,10 +150,10 @@ def event_register_view(request, id):
         save_path = 'static/barcode/'
         file_path = 'barcode/'
         file_name = "barcode_%s_%s" %(event.event_type, create.id)
-        fullname = barcode_file.save(os.path.join(save_path, file_name))
+        # fullname = barcode_file.save(os.path.join(save_path, file_name))
 
-        # f = open('/my/new/file', 'wb')
-        # ean.write(f) # Pillow (ImageWriter) produces RAW format here
+        f = open(os.path.join(save_path, file_name)+'.png', 'wb')
+        barcode_file.write(f) # Pillow (ImageWriter) produces RAW format here
            
         # name = generate('code128', '5901234123457', output='barcode_svg')
         # name
