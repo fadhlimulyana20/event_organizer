@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'ticketing',
     'filemanager',
     'payment',
+    'appmanager'
 ]
 
 MIDDLEWARE = [
