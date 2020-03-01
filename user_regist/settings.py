@@ -33,7 +33,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '156.67.217.45',
     '127.0.0.1',
-    'app.sunatlemindonesia.com'
+    'app.sunatlemindonesia.com',
+    'sunatlemapp.com'
 ]
 
 
