@@ -122,20 +122,20 @@ def event_register_view(request, id):
             create = EventParticipant.objects.create(user=request.user, event=event)
 
             # create barcode
-            barcode_type = barcode.get_barcode_class('code128')
-            barcode_file = barcode_type("%s_%s" %(event.event_type, create.id), writer=ImageWriter())
+            # barcode_type = barcode.get_barcode_class('code128')
+            # barcode_file = barcode_type("%s_%s" %(event.event_type, create.id), writer=ImageWriter())
 
-            save_path = 'static/barcode/'
-            file_path = 'barcode/'
-            file_name = "barcode_%s_%s" %(event.event_type, create.id)
-            # fullname = barcode_file.save(os.path.join(save_path, file_name))
+            # save_path = 'static/barcode/'
+            # file_path = 'barcode/'
+            # file_name = "barcode_%s_%s" %(event.event_type, create.id)
+            # # fullname = barcode_file.save(os.path.join(save_path, file_name))
 
             
-            f = open(os.path.join(save_path, file_name)+'.png', 'wb')
-            barcode_file.write(f) # Pillow (ImageWriter) produces RAW format here
+            # f = open(os.path.join(save_path, file_name)+'.png', 'wb')
+            # barcode_file.write(f) # Pillow (ImageWriter) produces RAW format here
 
-            create.barcode = os.path.join(file_path, file_name+".png")
-            create.save()
+            # create.barcode = os.path.join(file_path, file_name+".png")
+            # create.save()
 
         elif not invoice.first().is_invoice_due:
             return HttpResponseRedirect(reverse('ticketing:event_detail_view', kwargs={'id': id}))
@@ -144,21 +144,21 @@ def event_register_view(request, id):
         create = EventParticipant.objects.create(user=request.user, event=event)
 
         # create barcode
-        barcode_type = barcode.get_barcode_class('code128')
-        barcode_file = barcode_type("%s_%s" %(event.event_type, create.id), writer=ImageWriter())
-        # barcode_file = barcode_type("a_2", writer=ImageWriter())
-        save_path = 'static/barcode/'
-        file_path = 'barcode/'
-        file_name = "barcode_%s_%s" %(event.event_type, create.id)
-        # fullname = barcode_file.save(os.path.join(save_path, file_name))
+        # barcode_type = barcode.get_barcode_class('code128')
+        # barcode_file = barcode_type("%s_%s" %(event.event_type, create.id), writer=ImageWriter())
+        # # barcode_file = barcode_type("a_2", writer=ImageWriter())
+        # save_path = 'static/barcode/'
+        # file_path = 'barcode/'
+        # file_name = "barcode_%s_%s" %(event.event_type, create.id)
+        # # fullname = barcode_file.save(os.path.join(save_path, file_name))
 
-        f = open(os.path.join(save_path, file_name)+'.png', 'wb')
-        barcode_file.write(f) # Pillow (ImageWriter) produces RAW format here
+        # f = open(os.path.join(save_path, file_name)+'.png', 'wb')
+        # barcode_file.write(f) # Pillow (ImageWriter) produces RAW format here
            
-        # name = generate('code128', '5901234123457', output='barcode_svg')
-        # name
-        create.barcode = os.path.join(file_path, file_name+".png")
-        create.save()
+        # # name = generate('code128', '5901234123457', output='barcode_svg')
+        # # name
+        # create.barcode = os.path.join(file_path, file_name+".png")
+        # create.save()
     
     return HttpResponseRedirect(reverse('ticketing:event_detail_view', kwargs={'id': id}))
 
